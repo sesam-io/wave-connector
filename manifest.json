@@ -1,0 +1,30 @@
+{
+    "datatypes": {
+      "business": {
+        "template": "templates/business.json"
+      },
+      "country": {
+        "template": "templates/country.json"
+      },
+      "currency": {
+        "template": "templates/currency.json"
+      },
+      "customer": {
+        "template": "templates/customer.json",
+        "bidirectional": true
+      },
+      "invoice": {
+        "template": "templates/invoice.json"
+      },
+      "product": {
+        "template": "templates/product.json"
+      },
+      "user": {
+        "template": "templates/user.json"
+      },
+      "vendor": {
+        "template": "templates/vendor.json"
+      }
+    },
+    "system-template": "templates/wave.json"
+  }

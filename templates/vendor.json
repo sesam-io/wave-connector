@@ -1,0 +1,68 @@
+[
+  {
+    "_id": "wave-vendor-collect",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "wave-business-collect"
+    },
+    "transform": [
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "add",
+              "::payload",
+              [
+                "dict",
+                "query",
+                [
+                  "concat",
+                  "query {  business(id: \"",
+                  "_S.node.id",
+                  "\") { id vendors { edges { node {id name business {id} address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } firstName lastName displayId email mobile phone fax tollFree website internalNotes currency { code } createdAt modifiedAt isArchived } } } } }"
+                ],
+                "variables",
+                {}
+              ]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "rest",
+        "system": "wave",
+        "id_expression": "{{ node.id }}",
+        "operation": "get",
+        "updated_expression": "{{ modifiedAt }}"
+      },
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "create-child",
+              [
+                "apply",
+                "customer",
+                "_S.response.data.business.vendors.edges.node"
+              ]
+            ]
+          ],
+          "customer": [
+            [
+              "copy",
+              "*"
+            ],
+            [
+              "add",
+              "_id",
+              "_S.id"
+            ]
+          ]
+        }
+      }
+    ]
+  }
+]

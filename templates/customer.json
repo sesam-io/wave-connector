@@ -1,0 +1,500 @@
+[
+  {
+    "_id": "wave-customer-collect",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "wave-business-collect"
+    },
+    "transform": [
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "create",
+              [
+                "apply",
+                "payload",
+                [
+                  "range",
+                  1,
+                  20
+                ]
+              ]
+            ],
+            [
+              "discard"
+            ]
+          ],
+          "payload": [
+            [
+              "add",
+              "_id",
+              [
+                "concat",
+                "_P._S._id",
+                "-",
+                [
+                  "string",
+                  "_S."
+                ]
+              ]
+            ],
+            [
+              "add",
+              "::payload",
+              [
+                "dict",
+                "query",
+                [
+                  "concat",
+                  "query {  business(id: \"",
+                  "_P._S.node.id",
+                  "\") { id customers (page: ",
+                  [
+                    "string",
+                    "_S."
+                  ],
+                  ", pageSize: 200) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }"
+                ],
+                "variables",
+                {}
+              ]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "rest",
+        "system": "wave",
+        "id_expression": "{{ node.id }}",
+        "operation": "get",
+        "updated_expression": "{{ modifiedAt }}"
+      },
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "create-child",
+              [
+                "apply",
+                "customer",
+                "_S.response.data.business.customers.edges.node"
+              ]
+            ]
+          ],
+          "customer": [
+            [
+              "copy",
+              "*"
+            ],
+            [
+              "add",
+              "_id",
+              "_S.id"
+            ]
+          ]
+        }
+      }
+    ],
+    "pump": {
+      "cron_expression": "0 * * * ?",
+      "rescan_run_count": 1
+    }
+  },
+  {
+    "_id": "wave-customer-collect-emit",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "wave-customer-collect"
+    },
+    "transform": {
+      "type": "emit_children"
+    }
+  },
+  {
+    "_id": "wave-customer-share-insert",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "wave-customer-transform"
+    },
+    "transform": [
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "filter",
+              [
+                "is-empty",
+                "_S.id"
+              ]
+            ],
+            [
+              "copy",
+              "sesam-id"
+            ],
+            [
+              "add",
+              "_variables",
+              [
+                "apply",
+                "payload",
+                "_S."
+              ]
+            ],
+            [
+              "add",
+              "::payload",
+              [
+                "dict",
+                "query",
+                "mutation ($input: CustomerCreateInput!) { customerCreate(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
+                "variables",
+                [
+                  "dict",
+                  "input",
+                  "_T._variables"
+                ]
+              ]
+            ]
+          ],
+          "payload": [
+            [
+              "copy",
+              "*"
+            ],
+            [
+              "remove",
+              "_*"
+            ],
+            [
+              "remove",
+              "id"
+            ],
+            [
+              "remove",
+              "retry"
+            ],
+            [
+              "remove",
+              "retry_ts"
+            ],
+            [
+              "remove",
+              "sesam-id"
+            ],
+            [
+              "if",
+              [
+                "is-not-empty",
+                "_P._T._old_id"
+              ],
+              [
+                "add",
+                "id",
+                "_T._old-id"
+              ]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "rest",
+        "system": "wave",
+        "operation": "update",
+        "properties": {
+          "url": ""
+        },
+        "replace_entity": false
+      },
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "copy",
+              "sesam-id"
+            ],
+            [
+              "merge-union",
+              "_S.response"
+            ],
+            [
+              "add",
+              "id",
+              "_T.data.customerCreate.customer.id"
+            ],
+            [
+              "sleep!",
+              1
+            ]
+          ]
+        }
+      }
+    ],
+    "add_namespaces": false,
+    "batch_size": 1,
+    "disable_set_last_seen": true,
+    "reprocessing_policy": "continue"
+  },
+  {
+    "_id": "wave-customer-share-update",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "wave-customer-transform"
+    },
+    "transform": [
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "filter",
+              [
+                "is-not-empty",
+                "_S.id"
+              ]
+            ],
+            [
+              "add",
+              "::payload",
+              [
+                "dict",
+                "query",
+                "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
+                "variables",
+                [
+                  "dict",
+                  "businessId",
+                  "_S.businessId",
+                  "customerId",
+                  "_S.id"
+                ]
+              ]
+            ],
+            [
+              "add",
+              "::entity",
+              "_S."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "rest",
+        "system": "wave",
+        "operation": "update",
+        "properties": {
+          "url": ""
+        },
+        "replace_entity": false
+      },
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "comment",
+              "**** OPTIMISTIC LOCKING ****"
+            ],
+            [
+              "add",
+              "_old",
+              [
+                "first",
+                [
+                  "hops",
+                  {
+                    "datasets": [
+                      "wave-customer-collect-emit a"
+                    ],
+                    "where": [
+                      [
+                        "eq",
+                        "_S.entity.id",
+                        "a.id"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ],
+            [
+              "add",
+              "_json_old",
+              [
+                "json-transit",
+                [
+                  "apply",
+                  "remove-under",
+                  "_T._old"
+                ]
+              ]
+            ],
+            [
+              "add",
+              "_json_new",
+              [
+                "first",
+                [
+                  "json-transit",
+                  [
+                    "apply",
+                    "remove-under",
+                    "_S.response.data.business.customer"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "add",
+              "_hash_old",
+              [
+                "hash128",
+                "murmur3",
+                "_T._json_old"
+              ]
+            ],
+            [
+              "add",
+              "_hash_new",
+              [
+                "hash128",
+                "murmur3",
+                "_T._json_new"
+              ]
+            ],
+            [
+              "if",
+              [
+                "eq",
+                "_T._hash_old",
+                "_T._hash_new"
+              ],
+              [
+                [
+                  "comment",
+                  "**** SAME DATA IN SYSTEM AS IN SESAM ****"
+                ],
+                [
+                  "copy",
+                  "entity"
+                ],
+                [
+                  "add",
+                  "::payload",
+                  [
+                    "dict",
+                    "query",
+                    "mutation ($input: CustomerPatchInput!) { customerPatch(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
+                    "variables",
+                    [
+                      "dict",
+                      "input",
+                      [
+                        "apply",
+                        "payload",
+                        "_S.entity"
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                [
+                  "comment",
+                  "**** DIFFERENT DATA IN SYSTEM THAN IN SESAM ****"
+                ],
+                [
+                  "discard"
+                ]
+              ]
+            ]
+          ],
+          "payload": [
+            [
+              "copy",
+              "*"
+            ],
+            [
+              "remove",
+              "_*"
+            ],
+            [
+              "remove",
+              "retry"
+            ],
+            [
+              "remove",
+              "businessId"
+            ],
+            [
+              "remove",
+              "sesam-id"
+            ],
+            [
+              "if",
+              [
+                "is-not-empty",
+                "_P._T._old_id"
+              ],
+              [
+                "add",
+                "id",
+                "_T._old-id"
+              ]
+            ]
+          ],
+          "remove-under": [
+            [
+              "copy",
+              "*",
+              "_*"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "rest",
+        "system": "wave",
+        "operation": "update",
+        "properties": {
+          "url": ""
+        },
+        "replace_entity": false
+      },
+      {
+        "type": "dtl",
+        "rules": {
+          "default": [
+            [
+              "copy",
+              "entity"
+            ],
+            [
+              "merge-union",
+              "_S.response"
+            ],
+            [
+              "add",
+              "id",
+              "_T.data.customerCreate.customer.id"
+            ],
+            [
+              "sleep!",
+              1
+            ]
+          ]
+        }
+      }
+    ],
+    "add_namespaces": false,
+    "batch_size": 1
+  }
+]

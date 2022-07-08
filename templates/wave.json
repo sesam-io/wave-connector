@@ -1,0 +1,33 @@
+{
+  "_id": "wave",
+  "type": "system:rest",
+  "headers": {
+    "Authorization": "$SECRET(wave-jwt)",
+    "accept": "application/json"
+  },
+  "operations": {
+    "delete": {
+      "method": "POST",
+      "url": "{{ properties.type }}/{{ properties.id }}"
+    },
+    "get": {
+      "id_expression": "{{ id }}",
+      "method": "POST",
+      "payload-type": "json",
+      "updated_expression": "{{ modifiedAt }}",
+      "url": ""
+    },
+    "insert": {
+      "method": "POST",
+      "payload-type": "json",
+      "url": "{{ properties.url }}?"
+    },
+    "update": {
+      "method": "POST",
+      "payload-type": "json",
+      "url": "{{ properties.url }}"
+    }
+  },
+  "url_pattern": "https://gql.waveapps.com/graphql/public%s",
+  "verify_ssl": true
+}
