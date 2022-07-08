@@ -1,10 +1,10 @@
 [
   {
-    "_id": "wave-country-collect",
+    "_id": "{{@ system @}}-country-collect",
     "type": "pipe",
     "source": {
       "type": "rest",
-      "system": "wave",
+      "system": "{{@ system @}}",
       "id_expression": "{{ code }}",
       "operation": "get",
       "payload": {

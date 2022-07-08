@@ -10,8 +10,7 @@
         "template": "templates/currency.json"
       },
       "customer": {
-        "template": "templates/customer.json",
-        "bidirectional": true
+        "template": "templates/customer.json"
       },
       "invoice": {
         "template": "templates/invoice.json"
@@ -26,5 +25,5 @@
         "template": "templates/vendor.json"
       }
     },
-    "system-template": "templates/wave.json"
+    "system-template": "templates/system.json"
   }

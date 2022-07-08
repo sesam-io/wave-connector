@@ -1,10 +1,10 @@
 [
   {
-    "_id": "wave-customer-collect",
+    "_id": "{{@ system @}}-customer-collect",
     "type": "pipe",
     "source": {
       "type": "dataset",
-      "dataset": "wave-business-collect"
+      "dataset": "{{@ system @}}-business-collect"
     },
     "transform": [
       {
@@ -67,7 +67,7 @@
       },
       {
         "type": "rest",
-        "system": "wave",
+        "system": "{{@ system @}}",
         "id_expression": "{{ node.id }}",
         "operation": "get",
         "updated_expression": "{{ modifiedAt }}"
@@ -105,22 +105,22 @@
     }
   },
   {
-    "_id": "wave-customer-collect-emit",
+    "_id": "{{@ system @}}-customer-collect-emit",
     "type": "pipe",
     "source": {
       "type": "dataset",
-      "dataset": "wave-customer-collect"
+      "dataset": "{{@ system @}}-customer-collect"
     },
     "transform": {
       "type": "emit_children"
     }
   },
   {
-    "_id": "wave-customer-share-insert",
+    "_id": "{{@ system @}}-customer-share-insert",
     "type": "pipe",
     "source": {
       "type": "dataset",
-      "dataset": "wave-customer-transform"
+      "dataset": "{{@ system @}}-customer-transform"
     },
     "transform": [
       {
@@ -205,7 +205,7 @@
       },
       {
         "type": "rest",
-        "system": "wave",
+        "system": "{{@ system @}}",
         "operation": "update",
         "properties": {
           "url": ""
@@ -243,11 +243,11 @@
     "reprocessing_policy": "continue"
   },
   {
-    "_id": "wave-customer-share-update",
+    "_id": "{{@ system @}}-customer-share-update",
     "type": "pipe",
     "source": {
       "type": "dataset",
-      "dataset": "wave-customer-transform"
+      "dataset": "{{@ system @}}-customer-transform"
     },
     "transform": [
       {
@@ -288,7 +288,7 @@
       },
       {
         "type": "rest",
-        "system": "wave",
+        "system": "{{@ system @}}",
         "operation": "update",
         "properties": {
           "url": ""
@@ -312,7 +312,7 @@
                   "hops",
                   {
                     "datasets": [
-                      "wave-customer-collect-emit a"
+                      "{{@ system @}}-customer-collect-emit a"
                     ],
                     "where": [
                       [
@@ -462,7 +462,7 @@
       },
       {
         "type": "rest",
-        "system": "wave",
+        "system": "{{@ system @}}",
         "operation": "update",
         "properties": {
           "url": ""

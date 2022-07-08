@@ -1,10 +1,10 @@
 [
   {
-    "_id": "wave-business-collect",
+    "_id": "{{@ system @}}-business-collect",
     "type": "pipe",
     "source": {
       "type": "rest",
-      "system": "wave",
+      "system": "{{@ system @}}",
       "id_expression": "{{ node.id }}",
       "operation": "get",
       "payload": {

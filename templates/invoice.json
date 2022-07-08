@@ -1,10 +1,10 @@
 [
   {
-    "_id": "wave-invoice-collect",
+    "_id": "{{@ system @}}-invoice-collect",
     "type": "pipe",
     "source": {
       "type": "dataset",
-      "dataset": "xxxxxxxx-wave-business-collect"
+      "dataset": "xxxxxxxx-{{@ system @}}-business-collect"
     },
     "transform": [
       {
@@ -32,7 +32,7 @@
       },
       {
         "type": "rest",
-        "system": "wave",
+        "system": "{{@ system @}}",
         "id_expression": "{{ node.id }}",
         "operation": "get",
         "updated_expression": "{{ modifiedAt }}"

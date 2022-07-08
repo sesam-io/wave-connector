@@ -1,10 +1,10 @@
 [
   {
-    "_id": "wave-user-collect",
+    "_id": "{{@ system @}}-user-collect",
     "type": "pipe",
     "source": {
       "type": "rest",
-      "system": "wave",
+      "system": "{{@ system @}}",
       "operation": "get",
       "payload": {
         "query": "query { user { id defaultEmail firstName lastName createdAt modifiedAt } }",

@@ -1,8 +1,8 @@
 {
-  "_id": "wave",
+  "_id": "{{@ system @}}",
   "type": "system:rest",
   "headers": {
-    "Authorization": "$SECRET(wave-jwt)",
+    "Authorization": "$SECRET({{@ system @}}-jwt)",
     "accept": "application/json"
   },
   "operations": {
