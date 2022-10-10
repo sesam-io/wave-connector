@@ -122,6 +122,11 @@
       "type": "dataset",
       "dataset": "{{@ system @}}-customer-transform"
     },
+      "sink": {
+      "type": "dataset",
+      "dataset": "{{@ system @}}-customer-share-insert",
+      "set_initial_offset": "onload"
+    },
     "transform": [
       {
         "type": "dtl",
