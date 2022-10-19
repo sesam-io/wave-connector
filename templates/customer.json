@@ -215,7 +215,8 @@
         "properties": {
           "url": ""
         },
-        "replace_entity": false
+        "replace_entity": false,
+        "side_effects": true
       },
       {
         "type": "dtl",
