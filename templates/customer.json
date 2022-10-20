@@ -102,7 +102,7 @@
     "pump": {
       "cron_expression": "0 * * * ?",
       "rescan_run_count": 1
-    }
+    },"namespaces": {"identity": ""}
   },
   {
     "_id": "{{@ system @}}-customer-collect-emit",
@@ -215,7 +215,8 @@
         "properties": {
           "url": ""
         },
-        "replace_entity": false
+        "replace_entity": false,
+        "side_effects": true
       },
       {
         "type": "dtl",
