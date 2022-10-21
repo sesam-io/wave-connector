@@ -76,6 +76,7 @@
         "type": "dtl",
         "rules": {
           "default": [
+            ["filter",["is-not-empty","_S.response.data.business.customers.edges.node"]],
             [
               "create-child",
               [
