@@ -100,8 +100,8 @@
       }
     ],
     "pump": {
-      "cron_expression": "0 * * * ?",
-      "rescan_run_count": 1
+      "rescan_run_count": 1,
+      "schedule_interval": 10
     },"namespaces": {"identity": ""}
   },
   {
@@ -256,7 +256,8 @@
       }
     ],
     "pump": {
-      "run_at_startup_if_not_populated": true
+      "run_at_startup_if_not_populated": true,
+      "schedule_interval": 10
     },
     "add_namespaces": false,
     "batch_size": 1,
@@ -519,6 +520,10 @@
         }
       }
     ],
+    "pump": {
+      "run_at_startup_if_not_populated": true,
+      "schedule_interval": 10
+    },
     "add_namespaces": false,
     "batch_size": 1
   }
