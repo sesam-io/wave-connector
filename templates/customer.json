@@ -140,7 +140,7 @@
               ]
             ],
             ["discard",
-              ["is-not-empty",
+              ["is-empty",
                 ["hops", {
                   "datasets": ["{{@ system @}}-customer-share-insert chi"],
                   "where": [
