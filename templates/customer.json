@@ -133,10 +133,20 @@
         "rules": {
           "default": [
             [
-              "filter",
+              "discard",
               [
                 "is-empty",
                 "_S.id"
+              ]
+            ],
+            ["discard",
+              ["is-not-empty",
+                ["hops", {
+                  "datasets": ["{{@ system @}}-customer-share-insert chi"],
+                  "where": [
+                    ["eq", "_S.sesam-id", "chi.sesam-id"]
+                  ]
+                }]
               ]
             ],
             [
@@ -243,6 +253,9 @@
         }
       }
     ],
+    "pump": {
+      "run_at_startup_if_not_populated": true
+    },
     "add_namespaces": false,
     "batch_size": 1,
     "disable_set_last_seen": true,
