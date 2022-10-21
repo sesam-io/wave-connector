@@ -132,6 +132,9 @@
         "type": "dtl",
         "rules": {
           "default": [
+            ["discard",
+              ["not", "_S._deleted"]
+            ],
             [
               "discard",
               [
@@ -272,6 +275,9 @@
         "type": "dtl",
         "rules": {
           "default": [
+            ["discard",
+              ["not", "_S._deleted"]
+            ],
             [
               "filter",
               [
