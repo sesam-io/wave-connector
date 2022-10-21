@@ -221,12 +221,11 @@
       {
         "type": "rest",
         "system": "{{@ system @}}",
-        "operation": "update",
+        "operation": "get",
         "properties": {
           "url": ""
         },
-        "replace_entity": false,
-        "side_effects": true
+        "replace_entity": false
       },
       {
         "type": "dtl",
@@ -286,7 +285,7 @@
               [
                 "dict",
                 "query",
-                "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
+                "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
                 "variables",
                 [
                   "dict",
@@ -486,7 +485,8 @@
         "properties": {
           "url": ""
         },
-        "replace_entity": false
+        "replace_entity": false,
+        "side_effects": true
       },
       {
         "type": "dtl",
