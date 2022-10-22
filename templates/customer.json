@@ -270,6 +270,7 @@
             ["discard",
               ["not", "_S._deleted"]
             ],
+            ["add", "_deleted", false],
             [
               "filter",
               [
