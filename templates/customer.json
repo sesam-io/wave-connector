@@ -108,7 +108,8 @@
     "type": "pipe",
     "source": {
       "type": "dataset",
-      "dataset": "{{@ system @}}-customer-transform"
+      "dataset": "{{@ system @}}-customer-transform",
+      "completeness": true
     },
       "sink": {
       "type": "dataset",
@@ -133,9 +134,10 @@
             ["discard",
               ["is-empty",
                 ["hops", {
-                  "datasets": ["{{@ system @}}-customer-share-insert chi"],
+                  "datasets": ["{{@ system @}}-customer-share-insert chi", "{{@ system @}}-customer-collect cc"],
                   "where": [
-                    ["eq", "_S.sesam-id", "chi.sesam-id"]
+                    ["eq", "_S.sesam-id", "chi.sesam-id"],
+                    ["eq", "chi.id", "cc.id"]
                   ],
                   "track-dependencies": false
                 }]
@@ -217,7 +219,8 @@
         "properties": {
           "url": ""
         },
-        "replace_entity": false
+        "replace_entity": false,
+        "side_effects": true
       },
       {
         "type": "dtl",
