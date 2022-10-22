@@ -528,5 +528,53 @@
     },
     "add_namespaces": false,
     "batch_size": 1
-  }
+  },
+  {
+    "_id": "{{@ system @}}-customer-share-delete",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "{{@ system @}}-customer-transform"
+    },
+    "transform": [{
+      "type": "dtl",
+      "rules": {
+        "default": [
+          ["discard", "_S._deleted"],
+          ["filter",
+            ["is-not-empty", "_S.id"]
+          ],
+          ["add", "::payload",
+            ["dict", "query", "mutation ($input: CustomerDeleteInput!) { customerDelete(input: $input) { didSucceed inputErrors { code message path } }}", "variables",
+              ["dict", "input",
+                ["dict", "id", "_S.id"]
+              ]
+            ]
+          ]
+        ]
+      }
+    }, {
+      "type": "rest",
+      "system": "{{@ system @}}",
+      "operation": "update",
+      "properties": {
+        "url": ""
+      },
+      "replace_entity": false,
+      "side_effects": true
+    }, {
+      "type": "dtl",
+      "rules": {
+        "default": [
+          ["copy", "*"],
+          ["sleep!", 1]
+        ]
+      }
+    }],
+    "pump": {
+      "schedule_interval": 300
+    },
+    "add_namespaces": false,
+    "batch_size": 1
+  }  
 ]
