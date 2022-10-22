@@ -540,6 +540,7 @@
       "rules": {
         "default": [
           ["discard", "_S._deleted"],
+          ["add", "_deleted", false],
           ["filter",
             ["is-not-empty", "_S.id"]
           ],
