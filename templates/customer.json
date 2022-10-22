@@ -241,6 +241,10 @@
               "sesam-id"
             ],
             [
+              "copy",
+              "entity"
+            ],
+            [
               "merge-union",
               "_S.response"
             ],
