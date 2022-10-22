@@ -326,7 +326,7 @@
                   "hops",
                   {
                     "datasets": [
-                      "{{@ system @}}-customer-collect-emit a"
+                      "{{@ system @}}-customer-collect a"
                     ],
                     "where": [
                       [
