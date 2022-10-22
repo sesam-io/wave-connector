@@ -149,7 +149,8 @@
                   "datasets": ["{{@ system @}}-customer-share-insert chi"],
                   "where": [
                     ["eq", "_S.sesam-id", "chi.sesam-id"]
-                  ]
+                  ],
+                  "track-dependencies": false
                 }]
               ]
             ],
