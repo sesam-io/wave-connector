@@ -101,20 +101,11 @@
       }
     ],
     "pump": {
-      "rescan_run_count": 1,
+      "partial_rescan_delta": 10,
+      "partial_rescan_run_count": 1,
+      "rescan_cron_expression": "0 0 * * ?",
       "schedule_interval": 10
     },"namespaces": {"identity": ""}
-  },
-  {
-    "_id": "{{@ system @}}-customer-collect-emit",
-    "type": "pipe",
-    "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-customer-collect"
-    },
-    "transform": {
-      "type": "emit_children"
-    }
   },
   {
     "_id": "{{@ system @}}-customer-share-insert",
