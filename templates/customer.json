@@ -150,6 +150,10 @@
             ],
             [
               "add",
+              "_id", ["concat","_S._id","-",["datetime-format", "%Y-%m-%dT%H:%M:%SZ",["now"]]]
+            ],
+            [
+              "add",
               "_variables",
               [
                 "apply",
