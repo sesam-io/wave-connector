@@ -15,6 +15,9 @@
       "supports_since": false,
       "updated_expression": "{{ modifiedAt }}"
     },
-    "add_namespaces": false
+    "add_namespaces": false,    
+    "pump": {
+      "schedule_interval": 10
+    }
   }
 ]
