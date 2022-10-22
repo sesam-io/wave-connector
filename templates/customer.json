@@ -114,7 +114,8 @@
       "sink": {
       "type": "dataset",
       "dataset": "{{@ system @}}-customer-share-insert",
-      "set_initial_offset": "onload"
+      "set_initial_offset": "onload",
+      "deletion_tracking": true
     },
     "transform": [
       {
