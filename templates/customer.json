@@ -252,9 +252,7 @@
       "schedule_interval": 10
     },
     "add_namespaces": false,
-    "batch_size": 1,
-    "disable_set_last_seen": true,
-    "reprocessing_policy": "continue"
+    "batch_size": 1
   },
   {
     "_id": "{{@ system @}}-customer-share-update",
