@@ -175,6 +175,11 @@
                   "_T._variables"
                 ]
               ]
+            ],
+            [
+              "add",
+              "::entity",
+              "_S."
             ]
           ],
           "payload": [
