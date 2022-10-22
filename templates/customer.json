@@ -140,7 +140,7 @@
                     ["eq", "_S.sesam-id", "chi.sesam-id"],
                     ["eq", "chi.id", "cc.id"]
                   ],
-                  "track-dependencies": false
+                  "track-dependencies": true
                 }]
               ]
             ],
