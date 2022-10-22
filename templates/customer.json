@@ -115,7 +115,7 @@
       "type": "dataset",
       "dataset": "{{@ system @}}-customer-share-insert",
       "set_initial_offset": "onload",
-      "deletion_tracking": true
+      "deletion_tracking": false
     },
     "transform": [
       {
