@@ -91,7 +91,8 @@
               "add",
               "_id",
               "_S.id"
-            ]
+            ],
+            ["add","$last-modified","_S.modifiedAt"]
           ]
         }
       }
