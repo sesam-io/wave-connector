@@ -19,7 +19,7 @@
                 [
                   "range",
                   1,
-                  20
+                  1
                 ]
               ]
             ],
@@ -100,9 +100,9 @@
     "pump": {
       "partial_rescan_delta": 10,
       "partial_rescan_run_count": 1,
-      "rescan_cron_expression": "0 0 * * ?",
-      "schedule_interval": 10
-    },"namespaces": {"identity": ""}
+      "rescan_cron_expression": "0 0 * * ?"
+    },
+    "namespaces": {"identity": ""}
   },
   {
     "_id": "{{@ system @}}-customer-share-insert",
