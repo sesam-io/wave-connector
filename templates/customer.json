@@ -500,30 +500,12 @@
         "type": "dtl",
         "rules": {
           "default": [
-            [
-              "copy",
-              "entity"
-            ],
-            [
-              "merge-union",
-              "_S.response"
-            ],
-            [
-              "add",
-              "id",
-              "_T.data.customerCreate.customer.id"
-            ],
-            [
-              "sleep!",
-              1
-            ]
+            ["copy", "*"],
+            ["sleep!", 1]
           ]
         }
       }
     ],
-    "pump": {
-      "run_at_startup_if_not_populated": true
-    },
     "add_namespaces": false,
     "batch_size": 1
   },
