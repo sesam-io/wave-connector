@@ -508,16 +508,18 @@
               "merge-union",
               "_S.response"
             ],
-            [
-              "add",
-              "id",
-              "_T.data.customerPatch.customer.id"
+            ["if",
+              ["eq", "_T.data.customerPatch.didSucceed", false],
+                ["merge",
+                  ["apply", "make_pipe_fail", "_T.data.customerPatch.inputErrors"]
+                ],
+                ["add", "id", "_T.data.customerPatch.customer.id"]
             ],
-            [
-              "sleep!",
-              1
-            ]
-          ]
+            ["sleep!", 1]
+          ],
+          "make_pipe_fail": [
+            ["fail!", "_T.message"]
+          ] 
         }
       }
     ],
