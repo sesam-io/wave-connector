@@ -508,6 +508,8 @@
               "merge-union",
               "_S.response"
             ],
+            ["comment", "*** Keep in mind that the batch_size should be kept to 1 in order for the make_pipe_fail logic to work properly ***"],
+            ["comment", "*** Details on error messages on mutations from Wave can be read here: https://developer.waveapps.com/hc/en-us/articles/360018571372 ***"],
             ["if",
               ["eq", "_T.data.customerPatch.didSucceed", false],
                 ["merge",
