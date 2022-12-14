@@ -23,5 +23,10 @@
       }
     },
     "system-template": "templates/system.json",
-    "auth": "oauth2"
+    "auth": "oauth2",
+    "oauth2": {
+        "scopes": ["account:*", "business:*", "customer:*", "invoice:*", "product:*", "sales_tax:*", "transaction:*", "user:*", "vendor:*"],
+        "token_url": "https://api.waveapps.com/oauth2/token/",
+        "login_url": "https://api.waveapps.com/oauth2/authorize/"
+    }
   }
