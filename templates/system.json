@@ -17,7 +17,6 @@
       "id_expression": "{{ id }}",
       "method": "POST",
       "payload-type": "json",
-      "updated_expression": "{{ modifiedAt }}",
       "url": ""
     },
     "insert": {
