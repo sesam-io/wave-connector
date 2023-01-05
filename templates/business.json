@@ -12,8 +12,7 @@
         "variables": {}
       },
       "payload_property": "data.businesses.edges",
-      "supports_since": false,
-      "updated_expression": "{{ modifiedAt }}"
+      "supports_since": false
     },
     "add_namespaces": false
   }
