@@ -309,9 +309,19 @@
               ]
             ],
             [
-              "add",
-              "::entity",
-              "_S."
+              "merge",
+              [
+                "apply", 
+                "entity", 
+                "_S."
+              ]
+            ]
+          ],
+          "entity": [
+            [
+              "copy",
+              "*",
+              ["list", "business.*", "_*"]
             ]
           ]
         }
