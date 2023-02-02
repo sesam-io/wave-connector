@@ -1,4 +1,7 @@
 {
+    "additional_parameters": {
+        "token_url": {}
+    },
     "datatypes": {
       "business": {
         "template": "templates/business.json"
