@@ -1,68 +1,69 @@
-[
-  {
-    "_id": "{{@ system @}}-product-collect",
-    "type": "pipe",
-    "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-business-collect"
+{
+  "_id": "{{@ system @}}-product-collect",
+  "namespaces": {
+    "identity": ""
+  },
+  "source": {
+    "dataset": "{{@ system @}}-business-collect",
+    "type": "dataset"
+  },
+  "transform": [
+    {
+      "rules": {
+        "default": [
+          [
+            "add",
+            "::payload",
+            [
+              "dict",
+              "query",
+              [
+                "concat",
+                "query {  business(id: \"",
+                "_S.node.id",
+                "\") { id products { edges { node {id name business {id} description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }"
+              ],
+              "variables",
+              {}
+            ]
+          ]
+        ]
+      },
+      "type": "dtl"
     },
-    "transform": [
-      {
-        "type": "dtl",
-        "rules": {
-          "default": [
-            [
-              "add",
-              "::payload",
-              [
-                "dict",
-                "query",
-                [
-                  "concat",
-                  "query {  business(id: \"",
-                  "_S.node.id",
-                  "\") { id products { edges { node {id name business {id} description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }"
-                ],
-                "variables",
-                {}
-              ]
-            ]
-          ]
-        }
-      },
-      {
-        "type": "rest",
-        "system": "{{@ system @}}",
-        "id_expression": "{{ node.id }}",
-        "operation": "get",
-        "updated_expression": "{{ modifiedAt }}"
-      },
-      {
-        "type": "dtl",
-        "rules": {
-          "default": [
-            [
-              "create-child",
-              [
-                "apply",
-                "customer",
-                "_S.response.data.business.products.edges.node"
-              ]
-            ]
+    {
+      "id_expression": "{{ node.id }}",
+      "operation": "get",
+      "system": "{{@ system @}}",
+      "type": "rest",
+      "updated_expression": "{{ modifiedAt }}"
+    },
+    {
+      "rules": {
+        "customer": [
+          [
+            "copy",
+            "*"
           ],
-          "customer": [
+          [
+            "add",
+            "_id",
+            "_S.id"
+          ]
+        ],
+        "default": [
+          [
+            "create-child",
             [
-              "copy",
-              "*"
-            ],
-            [
-              "add",
-              "_id",
-              "_S.id"
+              "apply",
+              "customer",
+              "_S.response.data.business.products.edges.node"
             ]
           ]
-        }
-      }
-    ],"namespaces": {"identity": ""}
-  }
-]
+        ]
+      },
+      "type": "dtl"
+    }
+  ],
+  "type": "pipe"
+}

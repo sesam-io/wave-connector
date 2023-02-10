@@ -1,6 +1,5 @@
 {
   "_id": "{{@ system @}}",
-  "type": "system:rest",
   "oauth2": {
     "access_token": "$SECRET(oauth_access_token)",
     "client_id": "$SECRET(oauth_client_id)",
@@ -30,6 +29,7 @@
       "url": "{{ properties.url }}"
     }
   },
+  "type": "system:rest",
   "url_pattern": "https://gql.waveapps.com/graphql/public%s",
   "verify_ssl": true
 }

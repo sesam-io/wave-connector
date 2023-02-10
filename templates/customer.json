@@ -1,130 +1,32 @@
 [
   {
-    "_id": "{{@ system @}}-customer-collect",
-    "type": "pipe",
-    "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-business-collect"
-    },
-    "transform": [
-      {
-        "type": "dtl",
-        "rules": {
-          "default": [
-            [
-              "create",
-              [
-                "apply",
-                "payload",
-                [
-                  "range",
-                  1,
-                  2
-                ]
-              ]
-            ],
-            [
-              "discard"
-            ]
-          ],
-          "payload": [
-            [
-              "add",
-              "_id",
-              [
-                "concat",
-                "_P._S._id",
-                "-",
-                [
-                  "string",
-                  "_S."
-                ]
-              ]
-            ],
-            [
-              "add",
-              "::payload",
-              [
-                "dict",
-                "query",
-                [
-                  "concat",
-                  "query {  business(id: \"",
-                  "_P._S.node.id",
-                  "\") { id customers (page: ",
-                  [
-                    "string",
-                    "_S."
-                  ],
-                  ", pageSize: 200) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }"
-                ],
-                "variables",
-                {}
-              ]
-            ]
-          ]
-        }
-      },
-      {
-        "type": "rest",
-        "system": "{{@ system @}}",
-        "id_expression": "{{ node.id }}",
-        "operation": "get",
-        "updated_expression": "{{ modifiedAt }}"
-      },
-      {
-        "type": "dtl",
-        "rules": {
-          "default": [
-            ["filter",["is-not-empty","_S.response.data.business.customers.edges.node"]],
-            ["create",
-              ["apply", "customer", "_S.response.data.business.customers.edges.node"]
-            ],
-            ["discard"]
-          ],
-          "customer": [
-            [
-              "copy",
-              "*"
-            ],
-            [
-              "add",
-              "_id",
-              "_S.id"
-            ],
-            ["add","$last-modified","_S.modifiedAt"]
-          ]
-        }
-      }
-    ],
+    "_id": "{{@ system @}}-{{@ datatype @}}-share-insert",
+    "add_namespaces": false,
+    "batch_size": 1,
     "pump": {
-      "partial_rescan_delta": 10,
-      "partial_rescan_run_count": 1,
-      "rescan_cron_expression": "0 0 * * ?"
+      "run_at_startup_if_not_populated": true
     },
-    "namespaces": {"identity": ""}
-  },
-  {
-    "_id": "{{@ system @}}-customer-share-insert",
-    "type": "pipe",
-    "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-customer-transform",
-      "completeness": true
-    },
-      "sink": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-customer-share-insert",
+    "sink": {
+      "dataset": "{{@ system @}}-{{@ datatype @}}-share-insert",
+      "deletion_tracking": false,
       "set_initial_offset": "onload",
-      "deletion_tracking": false
+      "type": "dataset"
+    },
+    "source": {
+      "completeness": true,
+      "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
+      "type": "dataset"
     },
     "transform": [
       {
-        "type": "dtl",
         "rules": {
           "default": [
-            ["discard",
-              ["not", "_S._deleted"]
+            [
+              "discard",
+              [
+                "not",
+                "_S._deleted"
+              ]
             ],
             [
               "discard",
@@ -133,16 +35,32 @@
                 "_S.id"
               ]
             ],
-            ["discard",
-              ["is-empty",
-                ["hops", {
-                  "datasets": ["{{@ system @}}-customer-share-insert chi", "{{@ system @}}-customer-collect cc"],
-                  "where": [
-                    ["eq", "_S.sesam-id", "chi.sesam-id"],
-                    ["eq", "chi.id", "cc.id"]
-                  ],
-                  "track-dependencies": false
-                }]
+            [
+              "discard",
+              [
+                "is-empty",
+                [
+                  "hops",
+                  {
+                    "datasets": [
+                      "{{@ system @}}-{{@ datatype @}}-share-insert chi",
+                      "{{@ system @}}-{{@ datatype @}}-collect cc"
+                    ],
+                    "track-dependencies": false,
+                    "where": [
+                      [
+                        "eq",
+                        "_S.sesam-id",
+                        "chi.sesam-id"
+                      ],
+                      [
+                        "eq",
+                        "chi.id",
+                        "cc.id"
+                      ]
+                    ]
+                  }
+                ]
               ]
             ],
             [
@@ -151,7 +69,19 @@
             ],
             [
               "add",
-              "_id", ["concat","_S._id","-",["datetime-format", "%Y-%m-%dT%H:%M:%SZ",["now"]]]
+              "_id",
+              [
+                "concat",
+                "_S._id",
+                "-",
+                [
+                  "datetime-format",
+                  "%Y-%m-%dT%H:%M:%SZ",
+                  [
+                    "now"
+                  ]
+                ]
+              ]
             ],
             [
               "add",
@@ -168,7 +98,7 @@
               [
                 "dict",
                 "query",
-                "mutation ($input: CustomerCreateInput!) { customerCreate(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
+                "mutation ($input: CustomerCreateInput!) { {{@ datatype @}}Create(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
                 "variables",
                 [
                   "dict",
@@ -221,20 +151,20 @@
               ]
             ]
           ]
-        }
+        },
+        "type": "dtl"
       },
       {
-        "type": "rest",
-        "system": "{{@ system @}}",
         "operation": "get",
         "properties": {
           "url": ""
         },
         "replace_entity": false,
-        "side_effects": true
+        "side_effects": true,
+        "system": "{{@ system @}}",
+        "type": "rest"
       },
       {
-        "type": "dtl",
         "rules": {
           "default": [
             [
@@ -252,38 +182,46 @@
             [
               "add",
               "id",
-              "_T.data.customerCreate.customer.id"
+              "_T.data.{{@ datatype @}}Create.{{@ datatype @}}.id"
             ],
             [
               "sleep!",
               1
             ]
           ]
-        }
+        },
+        "type": "dtl"
       }
     ],
+    "type": "pipe"
+  },
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-share-update",
+    "add_namespaces": false,
+    "batch_size": 1,
     "pump": {
       "run_at_startup_if_not_populated": true
     },
-    "add_namespaces": false,
-    "batch_size": 1
-  },
-  {
-    "_id": "{{@ system @}}-customer-share-update",
-    "type": "pipe",
     "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-customer-transform"
+      "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
+      "type": "dataset"
     },
     "transform": [
       {
-        "type": "dtl",
         "rules": {
           "default": [
-            ["discard",
-              ["not", "_S._deleted"]
+            [
+              "discard",
+              [
+                "not",
+                "_S._deleted"
+              ]
             ],
-            ["add", "_deleted", false],
+            [
+              "add",
+              "_deleted",
+              false
+            ],
             [
               "filter",
               [
@@ -297,13 +235,13 @@
               [
                 "dict",
                 "query",
-                "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
+                "query ($businessId: ID!, ${{@ datatype @}}Id: ID!) { business(id: $businessId) { id {{@ datatype @}}(id: ${{@ datatype @}}Id) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
                 "variables",
                 [
                   "dict",
                   "businessId",
                   "_S.business.id",
-                  "customerId",
+                  "{{@ datatype @}}Id",
                   "_S.id"
                 ]
               ]
@@ -311,8 +249,8 @@
             [
               "merge",
               [
-                "apply", 
-                "entity", 
+                "apply",
+                "entity",
                 "_S."
               ]
             ]
@@ -321,22 +259,26 @@
             [
               "copy",
               "*",
-              ["list", "business.*", "_*"]
+              [
+                "list",
+                "business.*",
+                "_*"
+              ]
             ]
           ]
-        }
+        },
+        "type": "dtl"
       },
       {
-        "type": "rest",
-        "system": "{{@ system @}}",
         "operation": "update",
         "properties": {
           "url": ""
         },
-        "replace_entity": false
+        "replace_entity": false,
+        "system": "{{@ system @}}",
+        "type": "rest"
       },
       {
-        "type": "dtl",
         "rules": {
           "default": [
             [
@@ -352,7 +294,7 @@
                   "hops",
                   {
                     "datasets": [
-                      "{{@ system @}}-customer-collect a"
+                      "{{@ system @}}-{{@ datatype @}}-collect a"
                     ],
                     "where": [
                       [
@@ -387,7 +329,7 @@
                   [
                     "apply",
                     "remove-under",
-                    "_S.response.data.business.customer"
+                    "_S.response.data.business.{{@ datatype @}}"
                   ]
                 ]
               ]
@@ -432,7 +374,7 @@
                   [
                     "dict",
                     "query",
-                    "mutation ($input: CustomerPatchInput!) { customerPatch(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
+                    "mutation ($input: CustomerPatchInput!) { {{@ datatype @}}Patch(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
                     "variables",
                     [
                       "dict",
@@ -492,22 +434,30 @@
             ]
           ],
           "remove-under": [
-            ["copy", "*", ["list", "_*", "$*"]]
+            [
+              "copy",
+              "*",
+              [
+                "list",
+                "_*",
+                "$*"
+              ]
+            ]
           ]
-        }
+        },
+        "type": "dtl"
       },
       {
-        "type": "rest",
-        "system": "{{@ system @}}",
         "operation": "update",
         "properties": {
           "url": ""
         },
         "replace_entity": false,
-        "side_effects": true
+        "side_effects": true,
+        "system": "{{@ system @}}",
+        "type": "rest"
       },
       {
-        "type": "dtl",
         "rules": {
           "default": [
             [
@@ -518,81 +468,167 @@
               "merge-union",
               "_S.response"
             ],
-            ["comment", "*** Keep in mind that the batch_size should be kept to 1 in order for the make_pipe_fail logic to work properly ***"],
-            ["comment", "*** Details on error messages on mutations from Wave can be read here: https://developer.waveapps.com/hc/en-us/articles/360018571372 ***"],
-            ["if",
-              ["eq", "_T.data.customerPatch.didSucceed", false],
-                ["merge",
-                  ["apply", "make_pipe_fail", "_T.data.customerPatch.inputErrors"]
-                ],
-                ["add", "id", "_T.data.customerPatch.customer.id"]
+            [
+              "comment",
+              "*** Keep in mind that the batch_size should be kept to 1 in order for the make_pipe_fail logic to work properly ***"
             ],
-            ["sleep!", 1]
-          ],
-          "make_pipe_fail": [
-            ["fail!", "_T.message"]
-          ] 
-        }
-      }
-    ],
-    "pump": {
-      "run_at_startup_if_not_populated": true
-    },
-    "add_namespaces": false,
-    "batch_size": 1
-  },
-  {
-    "_id": "{{@ system @}}-customer-share-delete",
-    "type": "pipe",
-    "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-customer-transform"
-    },
-    "transform": [{
-      "type": "dtl",
-      "rules": {
-        "default": [
-          ["discard", "_S._deleted"],
-          ["add", "_deleted", false],
-          ["filter",
-            ["is-not-empty", "_S.id"]
-          ],
-          ["add", "::payload",
-            ["dict", "query", "mutation ($input: CustomerDeleteInput!) { customerDelete(input: $input) { didSucceed inputErrors { code message path } }}", "variables",
-              ["dict", "input",
-                ["dict", "id", "_S.id"]
+            [
+              "comment",
+              "*** Details on error messages on mutations from Wave can be read here: https://developer.waveapps.com/hc/en-us/articles/360018571372 ***"
+            ],
+            [
+              "if",
+              [
+                "eq",
+                "_T.data.{{@ datatype @}}Patch.didSucceed",
+                false
+              ],
+              [
+                "merge",
+                [
+                  "apply",
+                  "make_pipe_fail",
+                  "_T.data.{{@ datatype @}}Patch.inputErrors"
+                ]
+              ],
+              [
+                "add",
+                "id",
+                "_T.data.{{@ datatype @}}Patch.{{@ datatype @}}.id"
               ]
+            ],
+            [
+              "sleep!",
+              1
             ]
           ],
-          [
-            "add",
-            "::entity",
-            "_S."
+          "make_pipe_fail": [
+            [
+              "fail!",
+              "_T.message"
+            ]
           ]
-        ]
+        },
+        "type": "dtl"
       }
-    }, {
-      "type": "rest",
-      "system": "{{@ system @}}",
-      "operation": "update",
-      "properties": {
-        "url": ""
-      },
-      "replace_entity": false,
-      "side_effects": true
-    }, {
-      "type": "dtl",
-      "rules": {
-        "default": [
-          ["copy", "*"],
-          ["sleep!", 1]
-        ]
-      }
-    }],
+    ],
+    "type": "pipe"
+  },
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-share-delete",
+    "add_namespaces": false,
+    "batch_size": 1,
     "pump": {
       "schedule_interval": 300
     },
-    "add_namespaces": false,
-    "batch_size": 1
-  }  
+    "source": {
+      "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
+      "type": "dataset"
+    },
+    "transform": [
+      {
+        "rules": {
+          "default": [
+            [
+              "discard",
+              "_S._deleted"
+            ],
+            [
+              "add",
+              "_deleted",
+              false
+            ],
+            [
+              "filter",
+              [
+                "is-not-empty",
+                "_S.id"
+              ]
+            ],
+            [
+              "add",
+              "::payload",
+              [
+                "dict",
+                "query",
+                "mutation ($input: CustomerDeleteInput!) { {{@ datatype @}}Delete(input: $input) { didSucceed inputErrors { code message path } }}",
+                "variables",
+                [
+                  "dict",
+                  "input",
+                  [
+                    "dict",
+                    "id",
+                    "_S.id"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "add",
+              "::entity",
+              "_S."
+            ]
+          ]
+        },
+        "type": "dtl"
+      },
+      {
+        "operation": "update",
+        "properties": {
+          "url": ""
+        },
+        "replace_entity": false,
+        "side_effects": true,
+        "system": "{{@ system @}}",
+        "type": "rest"
+      },
+      {
+        "rules": {
+          "default": [
+            [
+              "copy",
+              "*"
+            ],
+            [
+              "sleep!",
+              1
+            ]
+          ]
+        },
+        "type": "dtl"
+      }
+    ],
+    "type": "pipe"
+  },
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-collect",
+    "namespaced_identifiers": false,
+    "source": {
+      "id_expression": "{{ node.id }}",
+      "operation": "list",
+      "operations": {
+        "list": {
+          "headers": {
+            "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
+          },
+          "method": "POST",
+          "next_page_link": "{{ url }}",
+          "next_page_termination_strategy": "empty-result",
+          "payload": {
+            "query": "query($business_id: ID!, $page: Int!) {  business(id: $business_id) { id {{@ datatype @}}s (page: $page, pageSize: 2) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }",
+            "variables": {
+              "business_id": "{{@ account_id @}}",
+              "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson"
+            }
+          },
+          "url": ""
+        }
+      },
+      "payload_property": "data.business.{{@ datatype @}}s.edges",
+      "system": "{{@ system @}}",
+      "type": "rest"
+    },
+    "type": "pipe"
+  }
 ]

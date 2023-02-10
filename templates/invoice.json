@@ -1,68 +1,69 @@
-[
-  {
-    "_id": "{{@ system @}}-invoice-collect",
-    "type": "pipe",
-    "source": {
-      "type": "dataset",
-      "dataset": "{{@ system @}}-business-collect"
+{
+  "_id": "{{@ system @}}-invoice-collect",
+  "namespaces": {
+    "identity": ""
+  },
+  "source": {
+    "dataset": "{{@ system @}}-business-collect",
+    "type": "dataset"
+  },
+  "transform": [
+    {
+      "rules": {
+        "default": [
+          [
+            "add",
+            "::payload",
+            [
+              "dict",
+              "query",
+              [
+                "concat",
+                "query {  business(id: \"",
+                "_S.node.id",
+                "\") { id invoices { edges { node {id  business {id} createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer{ id } currency{ code } dueDate amountDue{ value currency{ symbol } } amountPaid{ value currency{ symbol } } taxTotal{ value currency{ symbol } } total{ value currency{ symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items{ product{ id } description quantity price subtotal{ value currency{ symbol } } total{ value currency{ symbol } } account{ id name subtype{ name value } } taxes{ amount{ value } salesTax{ id name } } } lastSentAt lastSentVia lastViewedAt } } } } }"
+              ],
+              "variables",
+              {}
+            ]
+          ]
+        ]
+      },
+      "type": "dtl"
     },
-    "transform": [
-      {
-        "type": "dtl",
-        "rules": {
-          "default": [
-            [
-              "add",
-              "::payload",
-              [
-                "dict",
-                "query",
-                [
-                  "concat",
-                  "query {  business(id: \"",
-                  "_S.node.id",
-                  "\") { id invoices { edges { node {id  business {id} createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer{ id } currency{ code } dueDate amountDue{ value currency{ symbol } } amountPaid{ value currency{ symbol } } taxTotal{ value currency{ symbol } } total{ value currency{ symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items{ product{ id } description quantity price subtotal{ value currency{ symbol } } total{ value currency{ symbol } } account{ id name subtype{ name value } } taxes{ amount{ value } salesTax{ id name } } } lastSentAt lastSentVia lastViewedAt } } } } }"
-                ],
-                "variables",
-                {}
-              ]
-            ]
-          ]
-        }
-      },
-      {
-        "type": "rest",
-        "system": "{{@ system @}}",
-        "id_expression": "{{ node.id }}",
-        "operation": "get",
-        "updated_expression": "{{ modifiedAt }}"
-      },
-      {
-        "type": "dtl",
-        "rules": {
-          "default": [
-            [
-              "create-child",
-              [
-                "apply",
-                "customer",
-                "_S.response.data.business.invoices.edges.node"
-              ]
-            ]
+    {
+      "id_expression": "{{ node.id }}",
+      "operation": "get",
+      "system": "{{@ system @}}",
+      "type": "rest",
+      "updated_expression": "{{ modifiedAt }}"
+    },
+    {
+      "rules": {
+        "customer": [
+          [
+            "copy",
+            "*"
           ],
-          "customer": [
+          [
+            "add",
+            "_id",
+            "_S.id"
+          ]
+        ],
+        "default": [
+          [
+            "create-child",
             [
-              "copy",
-              "*"
-            ],
-            [
-              "add",
-              "_id",
-              "_S.id"
+              "apply",
+              "customer",
+              "_S.response.data.business.invoices.edges.node"
             ]
           ]
-        }
-      }
-    ],"namespaces": {"identity": ""}
-  }
-]
+        ]
+      },
+      "type": "dtl"
+    }
+  ],
+  "type": "pipe"
+}
