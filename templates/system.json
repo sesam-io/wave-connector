@@ -8,25 +8,11 @@
     "token_url": "{{@ token_url @}}"
   },
   "operations": {
-    "delete": {
-      "method": "POST",
-      "url": "{{ properties.type }}/{{ properties.id }}"
-    },
     "get": {
       "id_expression": "{{ id }}",
       "method": "POST",
       "payload-type": "json",
       "url": ""
-    },
-    "insert": {
-      "method": "POST",
-      "payload-type": "json",
-      "url": "{{ properties.url }}?"
-    },
-    "update": {
-      "method": "POST",
-      "payload-type": "json",
-      "url": "{{ properties.url }}"
     }
   },
   "type": "system:rest",

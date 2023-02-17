@@ -1,19 +1,14 @@
 [
   {
-    "_id": "{{@ system @}}-{{@ datatype @}}-share-insert",
-    "add_namespaces": false,
+    "_id": "{{@ system @}}-{{@ datatype @}}-share",
     "batch_size": 1,
-    "pump": {
-      "run_at_startup_if_not_populated": true
-    },
+    "comment": "TODO need to validate the responses from each operation, as status codes are always 200",
+    "namespaced_identifiers": false,
     "sink": {
-      "dataset": "{{@ system @}}-{{@ datatype @}}-share-insert",
       "deletion_tracking": false,
-      "set_initial_offset": "onload",
-      "type": "dataset"
+      "set_initial_offset": "onload"
     },
     "source": {
-      "completeness": true,
       "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
       "type": "dataset"
     },
@@ -22,70 +17,634 @@
         "rules": {
           "default": [
             [
-              "discard",
-              [
-                "not",
-                "_S._deleted"
-              ]
+              "copy",
+              "*"
             ],
             [
-              "discard",
+              "comment",
+              "businessId is required as a property on entities when inserted"
+            ],
+            [
+              "if",
               [
-                "is-empty",
+                "is-null",
                 "_S.id"
-              ]
-            ],
-            [
-              "discard",
+              ],
               [
-                "is-empty",
+                "add",
+                "businessId",
+                "{{@ account_id @}}"
+              ]
+            ]
+          ]
+        },
+        "type": "dtl"
+      },
+      {
+        "rules": {
+          "default": [
+            [
+              "if",
+              [
+                "and",
                 [
-                  "hops",
-                  {
-                    "datasets": [
-                      "{{@ system @}}-{{@ datatype @}}-share-insert chi",
-                      "{{@ system @}}-{{@ datatype @}}-collect cc"
+                  "eq",
+                  "_S.$replaced",
+                  true
+                ],
+                [
+                  "eq",
+                  "_S._deleted",
+                  true
+                ]
+              ],
+              [
+                "merge",
+                [
+                  "apply",
+                  "discard-replaced",
+                  "_S."
+                ]
+              ],
+              [
+                "if",
+                [
+                  "is-not-null",
+                  "_S.id"
+                ],
+                [
+                  "if",
+                  [
+                    "eq",
+                    "_S._deleted",
+                    true
+                  ],
+                  [
+                    [
+                      "comment",
+                      "Entity is deleted and it does have a system specific id."
                     ],
-                    "track-dependencies": false,
-                    "where": [
+                    [
+                      "merge",
                       [
-                        "eq",
-                        "_S.sesam-id",
-                        "chi.sesam-id"
-                      ],
-                      [
-                        "eq",
-                        "chi.id",
-                        "cc.id"
+                        "apply",
+                        "delete",
+                        "_S."
                       ]
                     ]
-                  }
-                ]
-              ]
-            ],
-            [
-              "copy",
-              "sesam-id"
-            ],
-            [
-              "add",
-              "_id",
-              [
-                "concat",
-                "_S._id",
-                "-",
-                [
-                  "datetime-format",
-                  "%Y-%m-%dT%H:%M:%SZ",
+                  ],
                   [
-                    "now"
+                    [
+                      "comment",
+                      "Entity is not deleted and it does have a system specific id."
+                    ],
+                    [
+                      "merge",
+                      [
+                        "apply",
+                        "lookup",
+                        "_S."
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "if",
+                  [
+                    "eq",
+                    "_S._deleted",
+                    true
+                  ],
+                  [
+                    "merge",
+                    [
+                      "apply",
+                      "discard-delete-non-existent",
+                      "_S."
+                    ]
+                  ],
+                  [
+                    [
+                      "comment",
+                      "At this point there is no primary key, so we should do an insert unless there are sink entity ids in $ids with $generated_id in them."
+                    ],
+                    [
+                      "if",
+                      [
+                        "is-not-empty",
+                        [
+                          "filter",
+                          [
+                            "is-not-null",
+                            "_."
+                          ],
+                          [
+                            "hops",
+                            {
+                              "datasets": [
+                                "{{@ system @}}-{{@ datatype @}}-share st"
+                              ],
+                              "return": "st.$generated_id",
+                              "track-dependencies": false,
+                              "where": [
+                                [
+                                  "eq",
+                                  "_S.$ids",
+                                  [
+                                    "ni",
+                                    "st._id"
+                                  ]
+                                ]
+                              ]
+                            }
+                          ]
+                        ]
+                      ],
+                      [
+                        "merge",
+                        [
+                          "apply",
+                          "discard-already-inserted",
+                          "_S."
+                        ]
+                      ],
+                      [
+                        [
+                          "comment",
+                          "Entity is not deleted, it does not have a system specific id and it does not exist in sink dataset."
+                        ],
+                        [
+                          "merge",
+                          [
+                            "apply",
+                            "insert",
+                            "_S."
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
             ],
             [
               "add",
-              "_variables",
+              "$source",
+              "_S."
+            ],
+            [
+              "add",
+              "id",
+              "_S.id"
+            ],
+            [
+              "copy",
+              "$origin"
+            ],
+            [
+              "copy",
+              "$replaced"
+            ],
+            [
+              "add",
+              "$trace_operations",
+              [
+                "list"
+              ]
+            ]
+          ],
+          "delete": [
+            [
+              "add",
+              "$operation",
+              "delete"
+            ]
+          ],
+          "discard-already-inserted": [
+            [
+              "add",
+              "$operation",
+              "discard-already-inserted"
+            ]
+          ],
+          "discard-delete-non-existent": [
+            [
+              "add",
+              "$operation",
+              "discard-delete-non-existent"
+            ]
+          ],
+          "discard-replaced": [
+            [
+              "add",
+              "$operation",
+              "discard-replaced"
+            ]
+          ],
+          "insert": [
+            [
+              "add",
+              "$operation",
+              "insert"
+            ],
+            [
+              "add",
+              "payload2",
+              [
+                "apply",
+                "payload",
+                "_S."
+              ]
+            ]
+          ],
+          "lookup": [
+            [
+              "add",
+              "$operation",
+              "lookup"
+            ]
+          ],
+          "payload": [
+            [
+              "merge",
+              [
+                "dict",
+                [
+                  "filter",
+                  [
+                    "not",
+                    [
+                      "or",
+                      [
+                        "matches",
+                        "_*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ],
+                      [
+                        "matches",
+                        "$*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "items",
+                    "_S."
+                  ]
+                ]
+              ]
+            ]
+          ]
+        },
+        "type": "dtl"
+      },
+      {
+        "allowed_status_codes": "200,404",
+        "operation": "lookup",
+        "operations": {
+          "lookup": {
+            "method": "POST",
+            "payload": {
+              "query": "query ($businessId: ID!, ${{@ datatype @}}Id: ID!) { business(id: $businessId) { id {{@ datatype @}}(id: ${{@ datatype @}}Id) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
+              "variables": {
+                "businessId": "{{@ account_id @}}",
+                "{{@ datatype @}}Id": "{{ entity.id }}"
+              }
+            },
+            "payload_property": "data.business.{{@ datatype @}}",
+            "url": ""
+          }
+        },
+        "replace_entity": false,
+        "response_property": "response_body",
+        "response_status_property": "response_status",
+        "side_effects": false,
+        "system": "{{@ system @}}",
+        "trigger_on": {
+          "key": "$operation",
+          "value": "lookup"
+        },
+        "type": "rest"
+      },
+      {
+        "rules": {
+          "based-on-comparison": [
+            [
+              "comment",
+              "If looked up entity is different from $based_on then noop. If looked up entity is same as _S then noop - otherwise perform update"
+            ],
+            [
+              "add",
+              "$based_on_source",
+              "_S.$source.$based_on"
+            ],
+            [
+              "merge",
+              [
+                "apply",
+                "based-on-lookup",
+                "_S."
+              ]
+            ],
+            [
+              "merge",
+              [
+                "apply",
+                "based-on-update",
+                "_S."
+              ]
+            ],
+            [
+              "if",
+              [
+                "neq",
+                "_T.$based_on_lookup",
+                "_T.$based_on_source"
+              ],
+              [
+                "add",
+                "$result",
+                "modified-in-system"
+              ],
+              [
+                "if",
+                [
+                  "neq",
+                  "_T.$based_on_update",
+                  "_T.$based_on_source"
+                ],
+                [
+                  "add",
+                  "$result",
+                  "needs-update"
+                ],
+                [
+                  "add",
+                  "$result",
+                  "entity-not-changed"
+                ]
+              ]
+            ]
+          ],
+          "based-on-extract": [
+            [
+              "if",
+              [
+                "is-dict",
+                "_S.a"
+              ],
+              [
+                "merge",
+                [
+                  "dict",
+                  [
+                    "map",
+                    [
+                      "list",
+                      "_.",
+                      [
+                        "if",
+                        [
+                          "is-dict",
+                          [
+                            "path",
+                            "_.",
+                            "_S.b"
+                          ]
+                        ],
+                        [
+                          "apply",
+                          "based-on-extract",
+                          [
+                            "dict",
+                            "a",
+                            [
+                              "path",
+                              "_.",
+                              "_S.a"
+                            ],
+                            "b",
+                            [
+                              "path",
+                              "_.",
+                              "_S.b"
+                            ]
+                          ]
+                        ],
+                        [
+                          "path",
+                          "_.",
+                          "_S.b"
+                        ]
+                      ]
+                    ],
+                    [
+                      "keys",
+                      "_S.a"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "based-on-lookup": [
+            [
+              "add",
+              "$based_on_lookup",
+              [
+                "apply",
+                "based-on-extract",
+                [
+                  "dict",
+                  "a",
+                  "_S.$source.$based_on",
+                  "b",
+                  [
+                    "first",
+                    "_S.response_body"
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "based-on-update": [
+            [
+              "add",
+              "$based_on_update",
+              [
+                "apply",
+                "based-on-extract",
+                [
+                  "dict",
+                  "a",
+                  "_S.$source.$based_on",
+                  "b",
+                  [
+                    "first",
+                    "_S.$source"
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "default": [
+            [
+              "if",
+              [
+                "neq",
+                "_S.$operation",
+                "lookup"
+              ],
+              [
+                "copy",
+                "*"
+              ],
+              [
+                [
+                  "if",
+                  [
+                    "neq",
+                    "_S.response_status",
+                    200
+                  ],
+                  [
+                    "copy",
+                    "*"
+                  ],
+                  [
+                    [
+                      "add",
+                      "$comparison",
+                      [
+                        "apply",
+                        "based-on-comparison",
+                        "_S."
+                      ]
+                    ],
+                    [
+                      "case-eq",
+                      [
+                        "path",
+                        "$result",
+                        "_T.$comparison"
+                      ],
+                      "modified-in-system",
+                      [
+                        "merge",
+                        [
+                          "apply",
+                          "discard-modified-in-system",
+                          "_S."
+                        ]
+                      ],
+                      "entity-not-changed",
+                      [
+                        "merge",
+                        [
+                          "apply",
+                          "discard-entity-not-changed",
+                          "_S."
+                        ]
+                      ],
+                      [
+                        "merge",
+                        [
+                          "apply",
+                          "update",
+                          "_S."
+                        ]
+                      ]
+                    ],
+                    [
+                      "copy",
+                      "$source"
+                    ],
+                    [
+                      "copy",
+                      "$origin"
+                    ],
+                    [
+                      "copy",
+                      "$replaced"
+                    ],
+                    [
+                      "add",
+                      "$trace_operations",
+                      [
+                        "combine",
+                        "_S.$trace_operations",
+                        "_S."
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "discard-entity-not-changed": [
+            [
+              "add",
+              "$operation",
+              "discard-entity-not-changed"
+            ]
+          ],
+          "discard-modified-in-system": [
+            [
+              "add",
+              "$operation",
+              "discard-modified-in-system"
+            ]
+          ],
+          "payload": [
+            [
+              "merge",
+              [
+                "dict",
+                [
+                  "filter",
+                  [
+                    "not",
+                    [
+                      "or",
+                      [
+                        "matches",
+                        "_*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ],
+                      [
+                        "matches",
+                        "$*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "items",
+                    "_S."
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "update": [
+            [
+              "comment",
+              "May need to shape payload somewhat?"
+            ],
+            [
+              "merge",
               [
                 "apply",
                 "payload",
@@ -94,175 +653,16 @@
             ],
             [
               "add",
-              "::payload",
-              [
-                "dict",
-                "query",
-                "mutation ($input: CustomerCreateInput!) { {{@ datatype @}}Create(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
-                "variables",
-                [
-                  "dict",
-                  "input",
-                  "_T._variables"
-                ]
-              ]
+              "$operation",
+              "update"
             ],
             [
               "add",
-              "::entity",
-              "_S."
-            ]
-          ],
-          "payload": [
-            [
-              "copy",
-              "*"
-            ],
-            [
-              "remove",
-              "_*"
-            ],
-            [
-              "remove",
-              "id"
-            ],
-            [
-              "remove",
-              "retry"
-            ],
-            [
-              "remove",
-              "retry_ts"
-            ],
-            [
-              "remove",
-              "sesam-id"
-            ],
-            [
-              "if",
-              [
-                "is-not-empty",
-                "_P._T._old_id"
-              ],
-              [
-                "add",
-                "id",
-                "_T._old-id"
-              ]
-            ]
-          ]
-        },
-        "type": "dtl"
-      },
-      {
-        "operation": "get",
-        "properties": {
-          "url": ""
-        },
-        "replace_entity": false,
-        "side_effects": true,
-        "system": "{{@ system @}}",
-        "type": "rest"
-      },
-      {
-        "rules": {
-          "default": [
-            [
-              "copy",
-              "sesam-id"
-            ],
-            [
-              "copy",
-              "entity"
-            ],
-            [
-              "merge-union",
-              "_S.response"
-            ],
-            [
-              "add",
-              "id",
-              "_T.data.{{@ datatype @}}Create.{{@ datatype @}}.id"
-            ],
-            [
-              "sleep!",
-              1
-            ]
-          ]
-        },
-        "type": "dtl"
-      }
-    ],
-    "type": "pipe"
-  },
-  {
-    "_id": "{{@ system @}}-{{@ datatype @}}-share-update",
-    "add_namespaces": false,
-    "batch_size": 1,
-    "pump": {
-      "run_at_startup_if_not_populated": true
-    },
-    "source": {
-      "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
-      "type": "dataset"
-    },
-    "transform": [
-      {
-        "rules": {
-          "default": [
-            [
-              "discard",
-              [
-                "not",
-                "_S._deleted"
-              ]
-            ],
-            [
-              "add",
-              "_deleted",
-              false
-            ],
-            [
-              "filter",
-              [
-                "is-not-empty",
-                "_S.id"
-              ]
-            ],
-            [
-              "add",
-              "::payload",
-              [
-                "dict",
-                "query",
-                "query ($businessId: ID!, ${{@ datatype @}}Id: ID!) { business(id: $businessId) { id {{@ datatype @}}(id: ${{@ datatype @}}Id) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
-                "variables",
-                [
-                  "dict",
-                  "businessId",
-                  "_S.business.id",
-                  "{{@ datatype @}}Id",
-                  "_S.id"
-                ]
-              ]
-            ],
-            [
-              "merge",
+              "payload2",
               [
                 "apply",
-                "entity",
-                "_S."
-              ]
-            ]
-          ],
-          "entity": [
-            [
-              "copy",
-              "*",
-              [
-                "list",
-                "business.*",
-                "_*"
+                "payload",
+                "_S.$source"
               ]
             ]
           ]
@@ -270,329 +670,241 @@
         "type": "dtl"
       },
       {
+        "allowed_status_codes": "200,404",
         "operation": "update",
-        "properties": {
-          "url": ""
+        "operations": {
+          "update": {
+            "method": "POST",
+            "payload": {
+              "query": "mutation ($input: CustomerPatchInput!) { {{@ datatype @}}Patch(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
+              "variables": {
+                "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+              }
+            },
+            "url": ""
+          }
         },
         "replace_entity": false,
+        "response_property": "response_body",
+        "response_status_property": "response_status",
+        "side_effects": false,
         "system": "{{@ system @}}",
+        "trigger_on": {
+          "key": "$operation",
+          "value": "update"
+        },
+        "type": "rest"
+      },
+      {
+        "allowed_status_codes": "200,201",
+        "operation": "insert",
+        "operations": {
+          "insert": {
+            "method": "POST",
+            "payload": {
+              "query": "mutation ($input: CustomerCreateInput!) { {{@ datatype @}}Create(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
+              "variables": {
+                "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+              }
+            },
+            "url": ""
+          }
+        },
+        "replace_entity": false,
+        "response_property": "response_body",
+        "response_status_property": "response_status",
+        "side_effects": false,
+        "system": "{{@ system @}}",
+        "trigger_on": {
+          "key": "$operation",
+          "value": "insert"
+        },
+        "type": "rest"
+      },
+      {
+        "allowed_status_codes": "200,204,404",
+        "operation": "delete",
+        "operations": {
+          "delete": {
+            "method": "POST",
+            "payload": {
+              "query": "mutation ($input: CustomerDeleteInput!) { {{@ datatype @}}Delete(input: $input) { didSucceed inputErrors { code message path } }}",
+              "variables": {
+                "input": {
+                  "id": "{{ entity.id }}"
+                }
+              }
+            },
+            "url": ""
+          }
+        },
+        "replace_entity": false,
+        "response_property": "response_body",
+        "response_status_property": "response_status",
+        "side_effects": false,
+        "system": "{{@ system @}}",
+        "trigger_on": {
+          "key": "$operation",
+          "value": "delete"
+        },
         "type": "rest"
       },
       {
         "rules": {
           "default": [
             [
-              "comment",
-              "**** OPTIMISTIC LOCKING ****"
+              "copy",
+              "$source"
+            ],
+            [
+              "copy",
+              "$origin"
+            ],
+            [
+              "copy",
+              "$replaced"
             ],
             [
               "add",
-              "_old",
-              [
-                "first",
-                [
-                  "hops",
-                  {
-                    "datasets": [
-                      "{{@ system @}}-{{@ datatype @}}-collect a"
-                    ],
-                    "where": [
-                      [
-                        "eq",
-                        "_S.entity.id",
-                        "a.id"
-                      ]
-                    ]
-                  }
-                ]
-              ]
+              "$last_operation",
+              "_S.$operation"
             ],
             [
               "add",
-              "_json_old",
+              "$trace_operations",
               [
-                "json-transit",
-                [
-                  "apply",
-                  "remove-under",
-                  "_T._old"
-                ]
-              ]
-            ],
-            [
-              "add",
-              "_json_new",
-              [
-                "first",
-                [
-                  "json-transit",
-                  [
-                    "apply",
-                    "remove-under",
-                    "_S.response.data.business.{{@ datatype @}}"
-                  ]
-                ]
-              ]
-            ],
-            [
-              "add",
-              "_hash_old",
-              [
-                "hash128",
-                "murmur3",
-                "_T._json_old"
-              ]
-            ],
-            [
-              "add",
-              "_hash_new",
-              [
-                "hash128",
-                "murmur3",
-                "_T._json_new"
+                "combine",
+                "_S.$trace_operations",
+                "_S."
               ]
             ],
             [
               "if",
               [
                 "eq",
-                "_T._hash_old",
-                "_T._hash_new"
+                "_S.$operation",
+                "insert"
               ],
               [
                 [
-                  "comment",
-                  "**** SAME DATA IN SYSTEM AS IN SESAM ****"
-                ],
-                [
-                  "copy",
-                  "entity"
+                  "if",
+                  [
+                    "is-null",
+                    "_T.$origin"
+                  ],
+                  [
+                    "fail!",
+                    "Inserted entity does not have $origin property"
+                  ]
                 ],
                 [
                   "add",
-                  "::payload",
+                  "$generated_id",
                   [
-                    "dict",
-                    "query",
-                    "mutation ($input: CustomerPatchInput!) { {{@ datatype @}}Patch(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
-                    "variables",
-                    [
-                      "dict",
-                      "input",
-                      [
-                        "apply",
-                        "payload",
-                        "_S.entity"
-                      ]
-                    ]
+                    "first",
+                    "_S.response_body.id"
                   ]
                 ]
-              ],
+              ]
+            ],
+            [
+              "add",
+              "_previous",
               [
+                "apply",
+                "previous",
                 [
-                  "comment",
-                  "**** DIFFERENT DATA IN SYSTEM THAN IN SESAM ****"
+                  "first",
+                  [
+                    "hops",
+                    {
+                      "datasets": [
+                        "{{@ system @}}-{{@ datatype @}}-share st"
+                      ],
+                      "track-dependencies": false,
+                      "where": [
+                        [
+                          "eq",
+                          "_S._id",
+                          "st._id"
+                        ]
+                      ]
+                    }
+                  ]
+                ]
+              ]
+            ],
+            [
+              "if",
+              [
+                "and",
+                [
+                  "is-null",
+                  "_T.$generated_id"
                 ],
                 [
-                  "discard"
+                  "is-not-null",
+                  "_T._previous.$generated_id"
                 ]
-              ]
-            ]
-          ],
-          "payload": [
-            [
-              "copy",
-              "*"
-            ],
-            [
-              "remove",
-              "_*"
-            ],
-            [
-              "remove",
-              "retry"
-            ],
-            [
-              "remove",
-              "businessId"
-            ],
-            [
-              "remove",
-              "sesam-id"
-            ],
-            [
-              "if",
-              [
-                "is-not-empty",
-                "_P._T._old_id"
               ],
               [
                 "add",
-                "id",
-                "_T._old-id"
+                "$generated_id",
+                "_T._previous.$generated_id"
               ]
-            ]
-          ],
-          "remove-under": [
-            [
-              "copy",
-              "*",
-              [
-                "list",
-                "_*",
-                "$*"
-              ]
-            ]
-          ]
-        },
-        "type": "dtl"
-      },
-      {
-        "operation": "update",
-        "properties": {
-          "url": ""
-        },
-        "replace_entity": false,
-        "side_effects": true,
-        "system": "{{@ system @}}",
-        "type": "rest"
-      },
-      {
-        "rules": {
-          "default": [
-            [
-              "copy",
-              "entity"
-            ],
-            [
-              "merge-union",
-              "_S.response"
             ],
             [
               "comment",
-              "*** Keep in mind that the batch_size should be kept to 1 in order for the make_pipe_fail logic to work properly ***"
-            ],
-            [
-              "comment",
-              "*** Details on error messages on mutations from Wave can be read here: https://developer.waveapps.com/hc/en-us/articles/360018571372 ***"
+              "If entity is $replaced and it has a $generated_id then we must not delete it."
             ],
             [
               "if",
               [
-                "eq",
-                "_T.data.{{@ datatype @}}Patch.didSucceed",
+                "and",
+                [
+                  "is-not-null",
+                  "_T.$generated_id"
+                ],
+                [
+                  "eq",
+                  "_S.$operation",
+                  "discard-replaced"
+                ]
+              ],
+              [
+                "add",
+                "_deleted",
                 false
-              ],
+              ]
+            ],
+            [
+              "if",
               [
-                "merge",
+                "and",
                 [
-                  "apply",
-                  "make_pipe_fail",
-                  "_T.data.{{@ datatype @}}Patch.inputErrors"
+                  "is-null",
+                  "_T.$origin"
+                ],
+                [
+                  "is-not-null",
+                  "_T._previous.$origin"
                 ]
               ],
               [
                 "add",
-                "id",
-                "_T.data.{{@ datatype @}}Patch.{{@ datatype @}}.id"
+                "$origin",
+                "_T._previous.$origin"
               ]
-            ],
-            [
-              "sleep!",
-              1
             ]
           ],
-          "make_pipe_fail": [
-            [
-              "fail!",
-              "_T.message"
-            ]
-          ]
-        },
-        "type": "dtl"
-      }
-    ],
-    "type": "pipe"
-  },
-  {
-    "_id": "{{@ system @}}-{{@ datatype @}}-share-delete",
-    "add_namespaces": false,
-    "batch_size": 1,
-    "pump": {
-      "schedule_interval": 300
-    },
-    "source": {
-      "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
-      "type": "dataset"
-    },
-    "transform": [
-      {
-        "rules": {
-          "default": [
-            [
-              "discard",
-              "_S._deleted"
-            ],
-            [
-              "add",
-              "_deleted",
-              false
-            ],
-            [
-              "filter",
-              [
-                "is-not-empty",
-                "_S.id"
-              ]
-            ],
-            [
-              "add",
-              "::payload",
-              [
-                "dict",
-                "query",
-                "mutation ($input: CustomerDeleteInput!) { {{@ datatype @}}Delete(input: $input) { didSucceed inputErrors { code message path } }}",
-                "variables",
-                [
-                  "dict",
-                  "input",
-                  [
-                    "dict",
-                    "id",
-                    "_S.id"
-                  ]
-                ]
-              ]
-            ],
-            [
-              "add",
-              "::entity",
-              "_S."
-            ]
-          ]
-        },
-        "type": "dtl"
-      },
-      {
-        "operation": "update",
-        "properties": {
-          "url": ""
-        },
-        "replace_entity": false,
-        "side_effects": true,
-        "system": "{{@ system @}}",
-        "type": "rest"
-      },
-      {
-        "rules": {
-          "default": [
+          "previous": [
             [
               "copy",
-              "*"
+              "$generated_id"
             ],
             [
-              "sleep!",
-              1
+              "copy",
+              "$origin"
             ]
           ]
         },
@@ -628,6 +940,17 @@
       "payload_property": "data.business.{{@ datatype @}}s.edges",
       "system": "{{@ system @}}",
       "type": "rest"
+    },
+    "transform": {
+      "rules": {
+        "default": [
+          [
+            "merge",
+            "_S.node"
+          ]
+        ]
+      },
+      "type": "dtl"
     },
     "type": "pipe"
   }
