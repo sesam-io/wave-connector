@@ -1,0 +1,21 @@
+{
+  "_id": "{{@ system @}}-{{@ datatype @}}-collect",
+  "namespaced_identifiers": false,
+  "source": {
+    "operation": "list-{{@ datatype @}}",
+    "system": "{{@ system @}}",
+    "type": "rest"
+  },
+  "transform": {
+    "rules": {
+      "default": [
+        [
+          "merge",
+          "_S.node"
+        ]
+      ]
+    },
+    "type": "dtl"
+  },
+  "type": "pipe"
+}

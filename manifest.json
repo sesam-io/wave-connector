@@ -6,7 +6,7 @@
   "auth": "oauth2",
   "datatypes": {
     "business": {
-      "template": "templates/customer.json"
+      "template": "templates/business.json"
     },
     "country": {
       "template": "templates/country.json"
@@ -18,13 +18,13 @@
       "template": "templates/customer.json"
     },
     "invoice": {
-      "template": "templates/customer.json"
+      "template": "templates/business.json"
     },
     "product": {
-      "template": "templates/customer.json"
+      "template": "templates/business.json"
     },
     "vendor": {
-      "template": "templates/customer.json"
+      "template": "templates/business.json"
     }
   },
   "oauth2": {
