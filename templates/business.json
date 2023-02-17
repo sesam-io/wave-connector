@@ -12,6 +12,14 @@
         [
           "merge",
           "_S.node"
+        ],
+        [
+          "add",
+          "$last-updated",
+          [
+            "datetime",
+            "_S.node.modifiedAt"
+          ]
         ]
       ]
     },
