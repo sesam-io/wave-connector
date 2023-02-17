@@ -306,21 +306,7 @@
       },
       {
         "allowed_status_codes": "200,404",
-        "operation": "lookup",
-        "operations": {
-          "lookup": {
-            "method": "POST",
-            "payload": {
-              "query": "query ($businessId: ID!, ${{@ datatype @}}Id: ID!) { business(id: $businessId) { id {{@ datatype @}}(id: ${{@ datatype @}}Id) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
-              "variables": {
-                "businessId": "{{@ account_id @}}",
-                "{{@ datatype @}}Id": "{{ entity.id }}"
-              }
-            },
-            "payload_property": "data.business.{{@ datatype @}}",
-            "url": ""
-          }
-        },
+        "operation": "{{@ datatype @}}-lookup",
         "replace_entity": false,
         "response_property": "response_body",
         "response_status_property": "response_status",
@@ -671,19 +657,7 @@
       },
       {
         "allowed_status_codes": "200,404",
-        "operation": "update",
-        "operations": {
-          "update": {
-            "method": "POST",
-            "payload": {
-              "query": "mutation ($input: CustomerPatchInput!) { {{@ datatype @}}Patch(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
-              "variables": {
-                "input": "{{ entity.payload2 | tojson }}sesam:markjson"
-              }
-            },
-            "url": ""
-          }
-        },
+        "operation": "{{@ datatype @}}-update",
         "replace_entity": false,
         "response_property": "response_body",
         "response_status_property": "response_status",
@@ -697,19 +671,7 @@
       },
       {
         "allowed_status_codes": "200,201",
-        "operation": "insert",
-        "operations": {
-          "insert": {
-            "method": "POST",
-            "payload": {
-              "query": "mutation ($input: CustomerCreateInput!) { {{@ datatype @}}Create(input: $input) { didSucceed inputErrors { code message path } {{@ datatype @}} { id } }}",
-              "variables": {
-                "input": "{{ entity.payload2 | tojson }}sesam:markjson"
-              }
-            },
-            "url": ""
-          }
-        },
+        "operation": "{{@ datatype @}}-insert",
         "replace_entity": false,
         "response_property": "response_body",
         "response_status_property": "response_status",
@@ -723,21 +685,7 @@
       },
       {
         "allowed_status_codes": "200,204,404",
-        "operation": "delete",
-        "operations": {
-          "delete": {
-            "method": "POST",
-            "payload": {
-              "query": "mutation ($input: CustomerDeleteInput!) { {{@ datatype @}}Delete(input: $input) { didSucceed inputErrors { code message path } }}",
-              "variables": {
-                "input": {
-                  "id": "{{ entity.id }}"
-                }
-              }
-            },
-            "url": ""
-          }
-        },
+        "operation": "{{@ datatype @}}-delete",
         "replace_entity": false,
         "response_property": "response_body",
         "response_status_property": "response_status",
@@ -917,27 +865,7 @@
     "_id": "{{@ system @}}-{{@ datatype @}}-collect",
     "namespaced_identifiers": false,
     "source": {
-      "id_expression": "{{ node.id }}",
-      "operation": "list",
-      "operations": {
-        "list": {
-          "headers": {
-            "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
-          },
-          "method": "POST",
-          "next_page_link": "{{ url }}",
-          "next_page_termination_strategy": "empty-result",
-          "payload": {
-            "query": "query($business_id: ID!, $page: Int!) {  business(id: $business_id) { id {{@ datatype @}}s (page: $page, pageSize: 2) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }",
-            "variables": {
-              "business_id": "{{@ account_id @}}",
-              "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson"
-            }
-          },
-          "url": ""
-        }
-      },
-      "payload_property": "data.business.{{@ datatype @}}s.edges",
+      "operation": "list-{{@ datatype @}}",
       "system": "{{@ system @}}",
       "type": "rest"
     },

@@ -1,15 +1,8 @@
 {
-  "_id": "{{@ system @}}-country-collect",
-  "add_namespaces": false,
+  "_id": "{{@ system @}}-{{@ datatype @}}-collect",
+  "namespaced_identifiers": false,
   "source": {
-    "id_expression": "{{ code }}",
-    "operation": "get",
-    "payload": {
-      "query": "query {  countries {  code name nameWithArticle currency { code } provinces { code name } } }",
-      "variables": {}
-    },
-    "payload_property": "data.countries",
-    "supports_since": false,
+    "operation": "{{@ datatype @}}-list",
     "system": "{{@ system @}}",
     "type": "rest"
   },

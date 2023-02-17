@@ -8,10 +8,135 @@
     "token_url": "{{@ token_url @}}"
   },
   "operations": {
-    "get": {
-      "id_expression": "{{ id }}",
+    "business-list": {
+      "id_expression": "{{ node.id }}",
       "method": "POST",
-      "payload-type": "json",
+      "payload": {
+        "query": "query {  businesses { edges { node { id name isClassicAccounting isClassicInvoicing isPersonal modifiedAt} } } }",
+        "variables": {}
+      },
+      "payload_property": "data.businesses.edges",
+      "url": ""
+    },
+    "country-list": {
+      "id_expression": "{{ code }}",
+      "method": "POST",
+      "payload": {
+        "query": "query {  countries {  code name nameWithArticle currency { code } provinces { code name } } }",
+        "variables": {}
+      },
+      "payload_property": "data.countries",
+      "url": ""
+    },
+    "currency-list": {
+      "id_expression": "{{ code }}",
+      "method": "POST",
+      "payload": {
+        "query": "query {  currencies {  code symbol name plural exponent } }",
+        "variables": {}
+      },
+      "payload_property": "data.currencies",
+      "url": ""
+    },
+    "customer-delete": {
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: CustomerDeleteInput!) { customerDelete(input: $input) { didSucceed inputErrors { code message path } }}",
+        "variables": {
+          "input": {
+            "id": "{{ entity.id }}"
+          }
+        }
+      },
+      "url": ""
+    },
+    "customer-insert": {
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: CustomerCreateInput!) { customerCreate(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "url": ""
+    },
+    "customer-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
+      },
+      "id_expression": "{{ node.id }}",
+      "method": "POST",
+      "next_page_link": "{{ url }}",
+      "next_page_termination_strategy": [
+        "empty-result",
+        "same-next-page-request"
+      ],
+      "payload": {
+        "query": "query($business_id: ID!, $page: Int!) {  business(id: $business_id) { id customers (page: $page, pageSize: 2) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }",
+        "variables": {
+          "business_id": "{{@ account_id @}}",
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.business.customers.edges",
+      "url": ""
+    },
+    "customer-lookup": {
+      "method": "POST",
+      "payload": {
+        "query": "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
+        "variables": {
+          "businessId": "{{@ account_id @}}",
+          "customerId": "{{ entity.id }}"
+        }
+      },
+      "payload_property": "data.business.customer",
+      "url": ""
+    },
+    "customer-update": {
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: CustomerPatchInput!) { customerPatch(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "url": ""
+    },
+    "invoice-list": {
+      "id_expression": "{{ node.id }}",
+      "method": "POST",
+      "payload": {
+        "query": "query($business_id: ID!) {  business(id: $business_id) { id invoices { edges { node {id  business {id} createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer{ id } currency{ code } dueDate amountDue{ value currency{ symbol } } amountPaid{ value currency{ symbol } } taxTotal{ value currency{ symbol } } total{ value currency{ symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items{ product{ id } description quantity price subtotal{ value currency{ symbol } } total{ value currency{ symbol } } account{ id name subtype{ name value } } taxes{ amount{ value } salesTax{ id name } } } lastSentAt lastSentVia lastViewedAt } } } } }",
+        "variables": {
+          "business_id": "{{@ account_id @}}"
+        }
+      },
+      "payload_property": "data.business.invoices.edges",
+      "url": ""
+    },
+    "product-list": {
+      "id_expression": "{{ node.id }}",
+      "method": "POST",
+      "payload": {
+        "query": "query($business_id: ID!) {  business(id: $business_id) { id products { edges { node {id name business {id} description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }",
+        "variables": {
+          "business_id": "{{@ account_id @}}"
+        }
+      },
+      "payload_property": "data.business.products.edges",
+      "url": ""
+    },
+    "vendor-list": {
+      "id_expression": "{{ node.id }}",
+      "method": "POST",
+      "payload": {
+        "query": "query($business_id: ID!) {  business(id: $business_id) { id vendors { edges { node {id name address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } firstName lastName displayId email mobile phone fax tollFree website internalNotes currency { code } createdAt modifiedAt isArchived } } } } }",
+        "variables": {
+          "business_id": "{{@ account_id @}}"
+        }
+      },
+      "payload_property": "data.business.vendors.edges",
       "url": ""
     }
   },

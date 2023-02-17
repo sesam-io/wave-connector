@@ -6,25 +6,25 @@
   "auth": "oauth2",
   "datatypes": {
     "business": {
-      "template": "templates/business.json"
+      "template": "templates/customer.json"
     },
     "country": {
       "template": "templates/country.json"
     },
     "currency": {
-      "template": "templates/currency.json"
+      "template": "templates/country.json"
     },
     "customer": {
       "template": "templates/customer.json"
     },
     "invoice": {
-      "template": "templates/invoice.json"
+      "template": "templates/customer.json"
     },
     "product": {
-      "template": "templates/product.json"
+      "template": "templates/customer.json"
     },
     "vendor": {
-      "template": "templates/vendor.json"
+      "template": "templates/customer.json"
     }
   },
   "oauth2": {
