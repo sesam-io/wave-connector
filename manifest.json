@@ -1,35 +1,46 @@
 {
-    "additional_parameters": {
-        "token_url": {}
+  "additional_parameters": {
+    "account_id": {},
+    "token_url": {}
+  },
+  "auth": "oauth2",
+  "datatypes": {
+    "business": {
+      "template": "templates/business.json"
     },
-    "datatypes": {
-      "business": {
-        "template": "templates/business.json"
-      },
-      "country": {
-        "template": "templates/country.json"
-      },
-      "currency": {
-        "template": "templates/currency.json"
-      },
-      "customer": {
-        "template": "templates/customer.json"
-      },
-      "invoice": {
-        "template": "templates/invoice.json"
-      },
-      "product": {
-        "template": "templates/product.json"
-      },
-      "vendor": {
-        "template": "templates/vendor.json"
-      }
+    "country": {
+      "template": "templates/country.json"
     },
-    "system-template": "templates/system.json",
-    "auth": "oauth2",
-    "oauth2": {
-        "scopes": ["account:*", "business:*", "customer:*", "invoice:*", "product:*", "sales_tax:*", "transaction:*", "user:*", "vendor:*"],
-        "token_url": "https://api.waveapps.com/oauth2/token/",
-        "login_url": "https://api.waveapps.com/oauth2/authorize/"
+    "currency": {
+      "template": "templates/country.json"
+    },
+    "customer": {
+      "template": "templates/customer.json"
+    },
+    "invoice": {
+      "template": "templates/business.json"
+    },
+    "product": {
+      "template": "templates/business.json"
+    },
+    "vendor": {
+      "template": "templates/business.json"
     }
-  }
+  },
+  "oauth2": {
+    "login_url": "https://api.waveapps.com/oauth2/authorize/",
+    "scopes": [
+      "account:*",
+      "business:*",
+      "customer:*",
+      "invoice:*",
+      "product:*",
+      "sales_tax:*",
+      "transaction:*",
+      "user:*",
+      "vendor:*"
+    ],
+    "token_url": "https://api.waveapps.com/oauth2/token/"
+  },
+  "system-template": "templates/system.json"
+}
