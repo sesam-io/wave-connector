@@ -42,6 +42,10 @@
       },
       {
         "properties": {
+            "operation_delete": "customer-delete",
+            "operation_insert": "customer-insert",
+            "operation_lookup": "customer-lookup",
+            "operation_update": "customer-update",
             "primary_key": "id",
             "rest_system": "{{@ system @}}",
             "share_dataset": "{{@ system @}}-{{@ datatype @}}-share",
