@@ -40,6 +40,7 @@
     },
     "customer-delete": {
       "method": "POST",
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "payload": {
         "query": "mutation ($input: CustomerDeleteInput!) { customerDelete(input: $input) { didSucceed inputErrors { code message path } }}",
         "variables": {
@@ -52,6 +53,7 @@
     },
     "customer-insert": {
       "method": "POST",
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "payload": {
         "query": "mutation ($input: CustomerCreateInput!) { customerCreate(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
         "variables": {
@@ -95,6 +97,7 @@
     },
     "customer-update": {
       "method": "POST",
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "payload": {
         "query": "mutation ($input: CustomerPatchInput!) { customerPatch(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
         "variables": {
