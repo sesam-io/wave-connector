@@ -47,7 +47,8 @@
       "user:*",
       "vendor:*"
     ],
-    "token_url": "https://api.waveapps.com/oauth2/token/"
+    "token_url": "https://api.waveapps.com/oauth2/token/",
+    "tenant_id_expression": "businessId"
   },
   "system-template": "templates/system.json"
 }
