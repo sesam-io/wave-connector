@@ -5,33 +5,37 @@
   },
   "auth": "oauth2",
   "datatypes": {
+    "account": {
+      "label": "Account",
+      "template": "templates/business.json"
+    },
     "business": {
-      "template": "templates/business.json",
-      "label": "Business"
+      "label": "Business",
+      "template": "templates/business.json"
     },
     "country": {
-      "template": "templates/country.json",
-      "label": "Country"
+      "label": "Country",
+      "template": "templates/country.json"
     },
     "currency": {
-      "template": "templates/country.json",
-      "label": "Currency"
+      "label": "Currency",
+      "template": "templates/country.json"
     },
     "customer": {
-      "template": "templates/customer.json",
-      "label": "Customer"
+      "label": "Customer",
+      "template": "templates/customer.json"
     },
     "invoice": {
-      "template": "templates/business.json",
-      "label": "Invoice"
+      "label": "Invoice",
+      "template": "templates/business.json"
     },
     "product": {
-      "template": "templates/business.json",
-      "label": "Product"
+      "label": "Product",
+      "template": "templates/business.json"
     },
     "vendor": {
-      "template": "templates/business.json",
-      "label": "Vendor"
+      "label": "Vendor",
+      "template": "templates/business.json"
     }
   },
   "oauth2": {
@@ -47,8 +51,8 @@
       "user:*",
       "vendor:*"
     ],
-    "token_url": "https://api.waveapps.com/oauth2/token/",
-    "tenant_id_expression": "businessId"
+    "tenant_id_expression": "businessId",
+    "token_url": "https://api.waveapps.com/oauth2/token/"
   },
   "system-template": "templates/system.json"
 }
