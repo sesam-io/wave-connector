@@ -1,5 +1,47 @@
 [
   {
+    "_id": "{{@ system @}}-{{@ datatype @}}-collect",
+    "exclude_completeness": [
+      "{{@ system @}}-{{@ datatype @}}-share"
+    ],
+    "namespaced_identifiers": false,
+    "source": {
+      "operation": "{{@ datatype @}}-list",
+      "system": "{{@ system @}}",
+      "type": "rest"
+    },
+    "transform": [
+      {
+        "rules": {
+          "default": [
+            [
+              "merge",
+              "_S.node"
+            ],
+            [
+              "add",
+              "$last-updated",
+              [
+                "datetime",
+                "_S.node.modifiedAt"
+              ]
+            ]
+          ]
+        },
+        "type": "dtl"
+      },
+      {
+        "properties": {
+          "primary_key": "id",
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
+        },
+        "template": "transform-collect-rest",
+        "type": "template"
+      }
+    ],
+    "type": "pipe"
+  },
+  {
     "_id": "{{@ system @}}-{{@ datatype @}}-share",
     "batch_size": 1,
     "comment": "TODO need to validate the responses from each operation, as status codes are always 200",
@@ -42,58 +84,16 @@
       },
       {
         "properties": {
-            "operation_delete": "customer-delete",
-            "operation_insert": "customer-insert",
-            "operation_lookup": "customer-lookup",
-            "operation_update": "customer-update",
-            "primary_key": "id",
-            "rest_system": "{{@ system @}}",
-            "share_dataset": "{{@ system @}}-{{@ datatype @}}-share",
-            "payload_property": "payload2"
+          "operation_delete": "{{@ datatype @}}-delete",
+          "operation_insert": "{{@ datatype @}}-insert",
+          "operation_lookup": "{{@ datatype @}}-lookup",
+          "operation_update": "{{@ datatype @}}-update",
+          "payload_property": "payload2",
+          "primary_key": "id",
+          "rest_system": "{{@ system @}}",
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
         "template": "transform-share-rest",
-        "type": "template"
-      }
-    ],
-    "type": "pipe"
-  },
-  {
-    "_id": "{{@ system @}}-{{@ datatype @}}-collect",
-    "exclude_completeness": [
-      "{{@ system @}}-{{@ datatype @}}-share"
-    ],
-    "namespaced_identifiers": false,
-    "source": {
-      "operation": "{{@ datatype @}}-list",
-      "system": "{{@ system @}}",
-      "type": "rest"
-    },
-    "transform": [
-      {
-        "rules": {
-          "default": [
-            [
-              "merge",
-              "_S.node"
-            ],
-            [
-              "add",
-              "$last-updated",
-              [
-                "datetime",
-                "_S.node.modifiedAt"
-              ]
-            ]
-          ]
-        },
-        "type": "dtl"
-      },
-      {
-        "properties": {
-            "primary_key": "id",
-            "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
-        },
-        "template": "transform-collect-rest",
         "type": "template"
       }
     ],

@@ -8,6 +8,22 @@
     "token_url": "{{@ token_url @}}"
   },
   "operations": {
+    "account-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
+      },
+      "id_expression": "{{ node.id }}",
+      "method": "POST",
+      "payload": {
+        "query": "query($business_id: ID!, $page: Int!) {  business(id: $business_id) { id accounts (page: $page, pageSize: 200) { edges { node { id classicId name description displayId currency { code symbol name plural exponent } type { name normalBalanceType value } subtype { name value description } normalBalanceType sequence isArchived balance balanceInBusinessCurrency } } } } }",
+        "variables": {
+          "business_id": "{{@ account_id @}}",
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.business.accounts.edges",
+      "url": ""
+    },
     "business-list": {
       "id_expression": "{{ node.id }}",
       "method": "POST",
@@ -39,8 +55,8 @@
       "url": ""
     },
     "customer-delete": {
-      "method": "POST",
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
       "payload": {
         "query": "mutation ($input: CustomerDeleteInput!) { customerDelete(input: $input) { didSucceed inputErrors { code message path } }}",
         "variables": {
@@ -52,8 +68,8 @@
       "url": ""
     },
     "customer-insert": {
-      "method": "POST",
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
       "payload": {
         "query": "mutation ($input: CustomerCreateInput!) { customerCreate(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
         "variables": {
@@ -96,8 +112,8 @@
       "url": ""
     },
     "customer-update": {
-      "method": "POST",
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
       "payload": {
         "query": "mutation ($input: CustomerPatchInput!) { customerPatch(input: $input) { didSucceed inputErrors { code message path } customer { id } }}",
         "variables": {
