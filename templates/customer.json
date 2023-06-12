@@ -78,7 +78,7 @@
             ],
             [
               "add",
-              "$last-updated",
+              "$last-modified",
               [
                 "datetime",
                 "_S.node.modifiedAt"
