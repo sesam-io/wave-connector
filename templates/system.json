@@ -138,7 +138,7 @@
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query($business_id: ID!) {  business(id: $business_id) { id products { edges { node {id name business {id} description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }",
+        "query": "query($business_id: ID!) { business(id: $business_id) { id products { edges { node { business { id } incomeAccount { id } expenseAccount { id } defaultSalesTaxes { id } id internalId name description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }",
         "variables": {
           "business_id": "{{@ account_id @}}"
         }
