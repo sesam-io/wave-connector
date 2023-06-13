@@ -28,7 +28,7 @@
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query {  businesses { edges { node { id name isClassicAccounting isClassicInvoicing isPersonal modifiedAt} } } }",
+        "query": "query($page: Int!, $pageSize: Int!) { businesses(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id name isPersonal organizationalType type { name value } subtype { name value } currency { code } timezone address { addressLine1 addressLine2 city province { code name } country { code name currency { code symbol name plural exponent } nameWithArticle } postalCode } phone fax mobile tollFree website isClassicAccounting isArchived createdAt modifiedAt customers(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id } } } accounts(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id } } } salesTaxes(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id } } } invoices(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id } } } vendors(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id } } } invoiceEstimateSettings { generalSettings { accentColor logoUrl } } products(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id } } } } } } } ",
         "variables": {}
       },
       "payload_property": "data.businesses.edges",
