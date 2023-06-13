@@ -27,7 +27,7 @@
     },
     "invoice": {
       "label": "Invoice",
-      "template": "templates/business.json"
+      "template": "templates/invoice.json"
     },
     "product": {
       "label": "Product",
