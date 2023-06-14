@@ -128,6 +128,18 @@
       },
       "url": ""
     },
+    "invoice-insert": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: InvoiceCreateInput!) { invoiceCreate(input: $input) { didSucceed inputErrors { message code path } invoice { id customer { id } } } } ",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.invoiceCreate.invoice",
+      "url": ""
+    },
     "invoice-list": {
       "id_expression": "{{ node.id }}",
       "method": "POST",
