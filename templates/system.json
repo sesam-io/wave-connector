@@ -135,7 +135,7 @@
         "query": "mutation($input: InvoiceDeleteInput!) { invoiceDelete(input: $input) { didSucceed inputErrors { message code path } }}",
         "variables": {
           "input": {
-            "id": "{{ entity.id }}"
+            "invoiceId": "{{ entity.id }}"
           }
         }
       },
