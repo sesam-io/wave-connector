@@ -31,7 +31,7 @@
     },
     "product": {
       "label": "Product",
-      "template": "templates/business.json"
+      "template": "templates/customer.json"
     },
     "vendor": {
       "label": "Vendor",
