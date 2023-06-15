@@ -8,6 +8,18 @@
     "token_url": "{{@ token_url @}}"
   },
   "operations": {
+    "account-insert": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: AccountCreateInput!){ accountCreate(input:$input) { didSucceed inputErrors { code message path } account { id name business { id } } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.accountCreate.account",
+      "url": ""
+    },
     "account-list": {
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
@@ -22,6 +34,29 @@
         }
       },
       "payload_property": "data.business.accounts.edges",
+      "url": ""
+    },
+    "account-lookup": {
+      "method": "POST",
+      "payload": {
+        "query": "query($businessId: ID!, $accountId: ID!) { business(id: $businessId) { id account(id: $accountId) { id classicId name description displayId currency { code symbol name plural exponent } type { name normalBalanceType value } subtype { name value description } normalBalanceType sequence isArchived balance balanceInBusinessCurrency } } } ",
+        "variables": {
+          "accountId": "{{ entity.id }}",
+          "businessId": "{{@ account_id @}}"
+        }
+      },
+      "payload_property": "data.business.account",
+      "url": ""
+    },
+    "account-update": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: AccountPatchInput!){ accountPatch(input:$input) { didSucceed inputErrors { code message path } account { id name business { id } } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
       "url": ""
     },
     "business-list": {
