@@ -40,10 +40,11 @@
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query($business_id: ID!, $page: Int!) {  business(id: $business_id) { id accounts (page: $page, pageSize: 200) { edges { node { id classicId name description displayId currency { code symbol name plural exponent } type { name normalBalanceType value } subtype { name value description } normalBalanceType sequence isArchived balance balanceInBusinessCurrency } } } } }",
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id accounts (page: $page, pageSize: $pageSize) { edges { node { id classicId name description displayId currency { code symbol name plural exponent } type { name normalBalanceType value } subtype { name value description } normalBalanceType sequence isArchived balance balanceInBusinessCurrency } } } } }",
         "variables": {
           "business_id": "{{@ account_id @}}",
-          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson"
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
+          "pageSize": 200
         }
       },
       "payload_property": "data.business.accounts.edges",
@@ -82,7 +83,7 @@
         "query": "query($page: Int!, $pageSize: Int!) { businesses(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id name isPersonal organizationalType type { name value } subtype { name value } currency { code } timezone address { addressLine1 addressLine2 city province { code name } country { code name currency { code symbol name plural exponent } nameWithArticle } postalCode } phone fax mobile tollFree website isClassicAccounting isArchived createdAt modifiedAt salesTaxes { edges { node { id } } } invoiceEstimateSettings { generalSettings { accentColor logoUrl } } } } } }",
         "variables": {
           "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
-          "pageSize": 2
+          "pageSize": 200
         }
       },
       "payload_property": "data.businesses.edges",
@@ -138,16 +139,12 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
-      "next_page_link": "{{ url }}",
-      "next_page_termination_strategy": [
-        "empty-result",
-        "same-next-page-request"
-      ],
       "payload": {
-        "query": "query($business_id: ID!, $page: Int!) {  business(id: $business_id) { id customers (page: $page, pageSize: 200) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }",
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id customers (page: $page, pageSize: $pageSize) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }",
         "variables": {
           "business_id": "{{@ account_id @}}",
-          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson"
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
+          "pageSize": 200
         }
       },
       "payload_property": "data.business.customers.edges",
@@ -202,12 +199,17 @@
       "url": ""
     },
     "invoice-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
+      },
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query($business_id: ID!) {  business(id: $business_id) { id invoices { edges { node {id  business {id} createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer{ id } currency{ code } dueDate amountDue{ value currency{ symbol } } amountPaid{ value currency{ symbol } } taxTotal{ value currency{ symbol } } total{ value currency{ symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items{ product{ id } description quantity price subtotal{ value currency{ symbol } } total{ value currency{ symbol } } account{ id name subtype{ name value } } taxes{ amount{ value } salesTax{ id name } } } lastSentAt lastSentVia lastViewedAt } } } } }",
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id invoices(page: $page, pageSize: $pageSize) { edges { node {id  business {id} createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer{ id } currency{ code } dueDate amountDue{ value currency{ symbol } } amountPaid{ value currency{ symbol } } taxTotal{ value currency{ symbol } } total{ value currency{ symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items{ product{ id } description quantity price subtotal{ value currency{ symbol } } total{ value currency{ symbol } } account{ id name subtype{ name value } } taxes{ amount{ value } salesTax{ id name } } } lastSentAt lastSentVia lastViewedAt } } } } }",
         "variables": {
-          "business_id": "{{@ account_id @}}"
+          "business_id": "{{@ account_id @}}",
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
+          "pageSize": 200
         }
       },
       "payload_property": "data.business.invoices.edges",
@@ -262,12 +264,17 @@
       "url": ""
     },
     "product-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
+      },
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query($business_id: ID!) { business(id: $business_id) { id products { edges { node { business {id} incomeAccount {id} expenseAccount {id} defaultSalesTaxes {id} id internalId name description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }",
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) { business(id: $business_id) { id products(page: $page, pageSize: $pageSize) { edges { node { business {id} incomeAccount {id} expenseAccount {id} defaultSalesTaxes {id} id internalId name description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }",
         "variables": {
-          "business_id": "{{@ account_id @}}"
+          "business_id": "{{@ account_id @}}",
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
+          "pageSize": 200
         }
       },
       "payload_property": "data.business.products.edges",
@@ -297,12 +304,17 @@
       "url": ""
     },
     "vendor-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
+      },
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query($business_id: ID!) {  business(id: $business_id) { id vendors { edges { node {id name address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } firstName lastName displayId email mobile phone fax tollFree website internalNotes currency { code } createdAt modifiedAt isArchived } } } } }",
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id vendors(page: $page, pageSize: $pageSize) { edges { node {id name address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } firstName lastName displayId email mobile phone fax tollFree website internalNotes currency { code } createdAt modifiedAt isArchived } } } } }",
         "variables": {
-          "business_id": "{{@ account_id @}}"
+          "business_id": "{{@ account_id @}}",
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
+          "pageSize": 200
         }
       },
       "payload_property": "data.business.vendors.edges",
