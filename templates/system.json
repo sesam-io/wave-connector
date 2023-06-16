@@ -188,6 +188,18 @@
       },
       "url": ""
     },
+    "product-insert": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: ProductCreateInput!) { productCreate(input: $input) { didSucceed inputErrors { code message path } product { id name description unitPrice incomeAccount { id name } expenseAccount { id name } isSold isBought isArchived createdAt modifiedAt } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.productCreate.product",
+      "url": ""
+    },
     "product-list": {
       "id_expression": "{{ node.id }}",
       "method": "POST",
