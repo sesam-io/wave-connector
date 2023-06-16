@@ -192,7 +192,7 @@
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
-        "query": "mutation($input: ProductArchiveInput!) { ProductArchive(input: $input) { didSucceed inputErrors { message code path } }}",
+        "query": "mutation($input: ProductArchiveInput!) { productArchive(input: $input) { didSucceed inputErrors { message code path } }}",
         "variables": {
           "input": {
             "id": "{{ entity.id }}"
