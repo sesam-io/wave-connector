@@ -7,7 +7,7 @@
   "datatypes": {
     "account": {
       "label": "Account",
-      "template": "templates/business.json"
+      "template": "templates/customer.json"
     },
     "business": {
       "label": "Business",
