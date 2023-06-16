@@ -128,6 +128,31 @@
       },
       "url": ""
     },
+    "invoice-delete": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: InvoiceDeleteInput!) { invoiceDelete(input: $input) { didSucceed inputErrors { message code path } }}",
+        "variables": {
+          "input": {
+            "invoiceId": "{{ entity.id }}"
+          }
+        }
+      },
+      "url": ""
+    },
+    "invoice-insert": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: InvoiceCreateInput!) { invoiceCreate(input: $input) { didSucceed inputErrors { message code path } invoice { id customer { id } items { product { id } } } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.invoiceCreate.invoice",
+      "url": ""
+    },
     "invoice-list": {
       "id_expression": "{{ node.id }}",
       "method": "POST",
@@ -140,6 +165,54 @@
       "payload_property": "data.business.invoices.edges",
       "url": ""
     },
+    "invoice-lookup": {
+      "method": "POST",
+      "payload": {
+        "query": "query($businessId: ID!, $invoiceId: ID!) { business(id: $businessId) { id invoice(id: $invoiceId) { id business { id } createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer { id } currency { code } dueDate amountDue { value currency { symbol } } amountPaid { value currency { symbol } } taxTotal { value currency { symbol } } total { value currency { symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items { product { id } description quantity price subtotal { value currency { symbol } } total { value currency { symbol } } account { id name subtype { name value } } taxes { amount { value } salesTax { id name } } } lastSentAt lastSentVia lastViewedAt } } }",
+        "variables": {
+          "businessId": "{{@ account_id @}}",
+          "invoiceId": "{{ entity.id }}"
+        }
+      },
+      "payload_property": "data.business.invoice",
+      "url": ""
+    },
+    "invoice-update": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: InvoicePatchInput!) { invoicePatch(input: $input) { didSucceed invoice { id invoiceNumber } inputErrors { message path code } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "url": ""
+    },
+    "product-delete": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: ProductArchiveInput!) { productArchive(input: $input) { didSucceed inputErrors { message code path } }}",
+        "variables": {
+          "input": {
+            "id": "{{ entity.id }}"
+          }
+        }
+      },
+      "url": ""
+    },
+    "product-insert": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation ($input: ProductCreateInput!) { productCreate(input: $input) { didSucceed inputErrors { code message path } product { id name description unitPrice incomeAccount { id name } expenseAccount { id name } isSold isBought isArchived createdAt modifiedAt } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.productCreate.product",
+      "url": ""
+    },
     "product-list": {
       "id_expression": "{{ node.id }}",
       "method": "POST",
@@ -150,6 +223,29 @@
         }
       },
       "payload_property": "data.business.products.edges",
+      "url": ""
+    },
+    "product-lookup": {
+      "method": "POST",
+      "payload": {
+        "query": "query($businessId: ID!, $productId: ID!) { business(id: $businessId) { id product(id: $productId) { business { id } incomeAccount { id } expenseAccount { id } defaultSalesTaxes { id } id internalId name description unitPrice isSold isBought isArchived createdAt modifiedAt } } }",
+        "variables": {
+          "businessId": "{{@ account_id @}}",
+          "productId": "{{ entity.id }}"
+        }
+      },
+      "payload_property": "data.business.product",
+      "url": ""
+    },
+    "product-update": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: ProductPatchInput!) { productPatch(input: $input) { didSucceed product { id } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
       "url": ""
     },
     "vendor-list": {

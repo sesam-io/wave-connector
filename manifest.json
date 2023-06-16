@@ -27,11 +27,11 @@
     },
     "invoice": {
       "label": "Invoice",
-      "template": "templates/business.json"
+      "template": "templates/customer.json"
     },
     "product": {
       "label": "Product",
-      "template": "templates/business.json"
+      "template": "templates/customer.json"
     },
     "vendor": {
       "label": "Vendor",
