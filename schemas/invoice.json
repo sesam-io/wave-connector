@@ -1,0 +1,15 @@
+{
+  "$id": "/api/pipes/xxxxxx-invoice-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "lastSentAt": {
+      "type": "datetime"
+    },
+    "lastViewedAt": {
+      "type": "datetime"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-invoice-collect",
+  "type": "object"
+}

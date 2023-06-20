@@ -1,0 +1,21 @@
+{
+  "$id": "/api/pipes/xxxxxx-customer-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "displayId": {
+      "type": "string"
+    },
+    "fax": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "tollFree": {
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-customer-collect",
+  "type": "object"
+}

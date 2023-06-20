@@ -1,0 +1,107 @@
+{
+  "$id": "/api/pipes/xxxxxx-account-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "type": "null"
+    },
+    "balance": {
+      "type": "string"
+    },
+    "balanceInBusinessCurrency": {
+      "type": "string"
+    },
+    "classicId": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "exponent": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "plural": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "description": {
+      "type": "string"
+    },
+    "displayId": {
+      "type": "null"
+    },
+    "id": {
+      "type": "string"
+    },
+    "isArchived": {
+      "type": "boolean"
+    },
+    "name": {
+      "type": "string"
+    },
+    "normalBalanceType": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "integer"
+    },
+    "subtype": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "type": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "normalBalanceType": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-account-collect",
+  "type": "object"
+}

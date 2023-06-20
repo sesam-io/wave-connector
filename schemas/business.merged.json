@@ -1,0 +1,196 @@
+{
+  "$id": "/api/pipes/xxxxxx-business-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "address": {
+      "additionalProperties": true,
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "currency": {
+              "additionalProperties": true,
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "exponent": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "plural": {
+                  "type": "string"
+                },
+                "symbol": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "name": {
+              "type": "string"
+            },
+            "nameWithArticle": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "province": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "fax": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "invoiceEstimateSettings": {
+      "additionalProperties": true,
+      "properties": {
+        "generalSettings": {
+          "additionalProperties": true,
+          "properties": {
+            "accentColor": {
+              "type": "string"
+            },
+            "logoUrl": {
+              "type": "null"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "isArchived": {
+      "type": "boolean"
+    },
+    "isClassicAccounting": {
+      "type": "boolean"
+    },
+    "isPersonal": {
+      "type": "boolean"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "modifiedAt": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "organizationalType": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "salesTaxes": {
+      "additionalProperties": true,
+      "properties": {
+        "edges": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "node": {
+                "additionalProperties": true,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "subtype": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "timezone": {
+      "type": "string"
+    },
+    "tollFree": {
+      "type": "string"
+    },
+    "type": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "website": {
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-business-collect",
+  "type": "object"
+}
