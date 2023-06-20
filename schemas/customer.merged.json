@@ -1,0 +1,133 @@
+{
+  "$id": "/api/pipes/xxxxxx-customer-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "address": {
+      "additionalProperties": true,
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "null"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "province": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "business": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "displayId": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "fax": {
+      "type": "null"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "null"
+    },
+    "modifiedAt": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "outstandingAmount": {
+      "additionalProperties": true,
+      "properties": {
+        "raw": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "overdueAmount": {
+      "additionalProperties": true,
+      "properties": {
+        "raw": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "tollFree": {
+      "type": "null"
+    },
+    "website": {
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-customer-collect",
+  "type": "object"
+}
