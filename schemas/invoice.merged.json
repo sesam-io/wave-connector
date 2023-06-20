@@ -1,0 +1,316 @@
+{
+  "$id": "/api/pipes/xxxxxx-invoice-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "amountDue": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "amountPaid": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "amountTitle": {
+      "type": "string"
+    },
+    "business": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "customer": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "disableBankPayments": {
+      "type": "boolean"
+    },
+    "disableCreditCardPayments": {
+      "type": "boolean"
+    },
+    "dueDate": {
+      "type": "string"
+    },
+    "exchangeRate": {
+      "type": "string"
+    },
+    "footer": {
+      "type": "string"
+    },
+    "hideAmount": {
+      "type": "boolean"
+    },
+    "hideDescription": {
+      "type": "boolean"
+    },
+    "hideName": {
+      "type": "boolean"
+    },
+    "hidePrice": {
+      "type": "boolean"
+    },
+    "hideUnit": {
+      "type": "boolean"
+    },
+    "id": {
+      "type": "string"
+    },
+    "invoiceDate": {
+      "type": "string"
+    },
+    "invoiceNumber": {
+      "type": "string"
+    },
+    "itemTitle": {
+      "type": "string"
+    },
+    "items": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "account": {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "subtype": {
+                "additionalProperties": true,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "product": {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "quantity": {
+            "type": "string"
+          },
+          "subtotal": {
+            "additionalProperties": true,
+            "properties": {
+              "currency": {
+                "additionalProperties": true,
+                "properties": {
+                  "symbol": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "taxes": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "amount": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "salesTax": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "total": {
+            "additionalProperties": true,
+            "properties": {
+              "currency": {
+                "additionalProperties": true,
+                "properties": {
+                  "symbol": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "lastSentAt": {
+      "type": "datetime"
+    },
+    "lastSentVia": {
+      "type": "string"
+    },
+    "lastViewedAt": {
+      "type": "datetime"
+    },
+    "memo": {
+      "type": "string"
+    },
+    "modifiedAt": {
+      "type": "string"
+    },
+    "pdfUrl": {
+      "type": "string"
+    },
+    "poNumber": {
+      "type": "string"
+    },
+    "priceTitle": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "subhead": {
+      "type": "string"
+    },
+    "taxTotal": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "title": {
+      "type": "string"
+    },
+    "total": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "unitTitle": {
+      "type": "string"
+    },
+    "viewUrl": {
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-invoice-collect",
+  "type": "object"
+}

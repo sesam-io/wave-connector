@@ -1,0 +1,106 @@
+{
+  "$id": "/api/pipes/xxxxxx-vendor-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "address": {
+      "additionalProperties": true,
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "province": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "displayId": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "fax": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "internalNotes": {
+      "type": "string"
+    },
+    "isArchived": {
+      "type": "boolean"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "modifiedAt": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "tollFree": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-vendor-collect",
+  "type": "object"
+}

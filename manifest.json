@@ -4,6 +4,7 @@
     "token_url": {}
   },
   "auth": "oauth2",
+  "system": "Wave",
   "datatypes": {
     "account": {
       "label": "Account",

@@ -1,0 +1,82 @@
+{
+  "$id": "/api/pipes/xxxxxx-product-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "business": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "defaultSalesTaxes": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "description": {
+      "type": "string"
+    },
+    "expenseAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "id": {
+      "type": "string"
+    },
+    "incomeAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "internalId": {
+      "type": "string"
+    },
+    "isArchived": {
+      "type": "boolean"
+    },
+    "isBought": {
+      "type": "boolean"
+    },
+    "isSold": {
+      "type": "boolean"
+    },
+    "modifiedAt": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "unitPrice": {
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-product-collect",
+  "type": "object"
+}
