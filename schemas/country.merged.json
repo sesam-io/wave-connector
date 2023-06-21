@@ -4,21 +4,25 @@
   "additionalProperties": true,
   "properties": {
     "code": {
+      "description": "Country code.",
       "type": "string"
     },
     "currency": {
       "additionalProperties": true,
       "properties": {
         "code": {
+          "description": "Currency code.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "name": {
+      "description": "Plain-language representation.",
       "type": "string"
     },
     "nameWithArticle": {
+      "description": "Name of the country with the appropriate article.",
       "type": "string"
     },
     "provinces": {
@@ -26,9 +30,11 @@
         "additionalProperties": true,
         "properties": {
           "code": {
+            "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier.",
             "type": "string"
           },
           "name": {
+            "description": "Plain-lanuage representaton.",
             "type": "string"
           }
         },

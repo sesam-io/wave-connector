@@ -2,7 +2,28 @@
   "$id": "/api/pipes/xxxxxx-currency-collect/entity-types/sink",
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
-  "properties": {},
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Currency code."
+    },
+    "exponent": {
+      "type": "integer",
+      "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Plain-language representation."
+    },
+    "plural": {
+      "type": "string",
+      "description": "Plural version of currency name."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Symbol used to denote that a number is a monetary value."
+    }
+  },
   "title": "Pipe sink entity type: xxxxxx-currency-collect",
   "type": "object"
 }

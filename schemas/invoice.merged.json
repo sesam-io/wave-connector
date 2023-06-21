@@ -14,12 +14,14 @@
           "additionalProperties": true,
           "properties": {
             "symbol": {
+              "description": "Symbol used to denote that a number is a monetary value.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "value": {
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
           "type": "string"
         }
       },
@@ -32,36 +34,42 @@
           "additionalProperties": true,
           "properties": {
             "symbol": {
+              "description": "Symbol used to denote that a number is a monetary value.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "value": {
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
           "type": "string"
         }
       },
       "type": "object"
     },
     "amountTitle": {
+      "description": "The label for the 'Amount' (= unit x price) column in the listing of line items on the invoice.",
       "type": "string"
     },
     "business": {
       "additionalProperties": true,
       "properties": {
         "id": {
+          "description": "The unique identifier for the business.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "createdAt": {
+      "description": "When the invoice was created.",
       "type": "string"
     },
     "currency": {
       "additionalProperties": true,
       "properties": {
         "code": {
+          "description": "Currency code.",
           "type": "string"
         }
       },
@@ -71,51 +79,66 @@
       "additionalProperties": true,
       "properties": {
         "id": {
+          "description": "Unique identifier for the customer.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "disableBankPayments": {
+      "description": "Within a business that is enabled to accept bank payments, indicates if this individual invoice has been marked to not be payable by bank payment.",
       "type": "boolean"
     },
     "disableCreditCardPayments": {
+      "description": "Within a business that is enabled to accept credit card payments, indicates if this individual invoice has been marked to not be payable by card.",
       "type": "boolean"
     },
     "dueDate": {
+      "description": "Date when payment is due.",
       "type": "string"
     },
     "exchangeRate": {
+      "description": "Exchange rate to business's currency from the invoice's currency. Used to value the invoice income within Wave's accounting transactions.",
       "type": "string"
     },
     "footer": {
+      "description": "Invoice footer text.",
       "type": "string"
     },
     "hideAmount": {
+      "description": "Indicates whether item's amount is hidden in the line items listing.",
       "type": "boolean"
     },
     "hideDescription": {
+      "description": "Indicates whether item's description in item column is hidden in the line items listing.",
       "type": "boolean"
     },
     "hideName": {
+      "description": "Indicates whether item's product name in item column is hidden in the line items listing.",
       "type": "boolean"
     },
     "hidePrice": {
+      "description": "Indicates whether item's price is hidden in the line items listing.",
       "type": "boolean"
     },
     "hideUnit": {
+      "description": "Indicates whether item's unit is hidden in the line items listing.",
       "type": "boolean"
     },
     "id": {
+      "description": "Unique identifier for the invoice.",
       "type": "string"
     },
     "invoiceDate": {
+      "description": "Date when invoice is issued.",
       "type": "string"
     },
     "invoiceNumber": {
+      "description": "Unique number assigned to the invoice.",
       "type": "string"
     },
     "itemTitle": {
+      "description": "The label for the 'Item' column in the line items listing.",
       "type": "string"
     },
     "items": {
@@ -126,18 +149,22 @@
             "additionalProperties": true,
             "properties": {
               "id": {
+                "description": "Unique identifier for the account.",
                 "type": "string"
               },
               "name": {
+                "description": "ame of the account.",
                 "type": "string"
               },
               "subtype": {
                 "additionalProperties": true,
                 "properties": {
                   "name": {
+                    "description": "Account subtype name.",
                     "type": "string"
                   },
                   "value": {
+                    "description": "Account subtype value.",
                     "type": "string"
                   }
                 },
@@ -147,21 +174,25 @@
             "type": "object"
           },
           "description": {
+            "description": "Detailed description.",
             "type": "string"
           },
           "price": {
+            "description": "DEPRECATED! Price per unit.",
             "type": "string"
           },
           "product": {
             "additionalProperties": true,
             "properties": {
               "id": {
+                "description": "Associated product.",
                 "type": "string"
               }
             },
             "type": "object"
           },
           "quantity": {
+            "description": "Number of units.",
             "type": "string"
           },
           "subtotal": {
@@ -171,12 +202,14 @@
                 "additionalProperties": true,
                 "properties": {
                   "symbol": {
+                    "description": "Symbol used to denote that a number is a monetary value.",
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "value": {
+                "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
                 "type": "string"
               }
             },
@@ -190,6 +223,7 @@
                   "additionalProperties": true,
                   "properties": {
                     "value": {
+                      "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
                       "type": "string"
                     }
                   },
@@ -199,9 +233,11 @@
                   "additionalProperties": true,
                   "properties": {
                     "id": {
+                      "description": "The unique identifier for the sales tax.",
                       "type": "string"
                     },
                     "name": {
+                      "description": "Name of the tax.",
                       "type": "string"
                     }
                   },
@@ -219,12 +255,14 @@
                 "additionalProperties": true,
                 "properties": {
                   "symbol": {
+                    "description": "Symbol used to denote that a number is a monetary value.",
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "value": {
+                "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
                 "type": "string"
               }
             },
@@ -236,33 +274,43 @@
       "type": "array"
     },
     "lastSentAt": {
-      "type": "datetime"
+      "description": "When the invoice was last sent.",
+      "type": "string"
     },
     "lastSentVia": {
+      "description": "How the invoice was last sent.",
       "type": "string"
     },
     "lastViewedAt": {
-      "type": "datetime"
+      "description": "When the invoice was last viewed by the customer.",
+      "type": "string"
     },
     "memo": {
+      "description": "Invoice memo (notes) text.",
       "type": "string"
     },
     "modifiedAt": {
+      "description": "When the invoice was last modified.",
       "type": "string"
     },
     "pdfUrl": {
+      "description": "URL to access PDF representation of the invoice.",
       "type": "string"
     },
     "poNumber": {
+      "description": "Purchase order or sales order number for the invoice.",
       "type": "string"
     },
     "priceTitle": {
+      "description": "The label for the 'Price' column in the listing of line items on the invoice.",
       "type": "string"
     },
     "status": {
+      "description": "Status of the Invoice.",
       "type": "string"
     },
     "subhead": {
+      "description": "Invoice subheading text.",
       "type": "string"
     },
     "taxTotal": {
@@ -272,18 +320,21 @@
           "additionalProperties": true,
           "properties": {
             "symbol": {
+              "description": "Symbol used to denote that a number is a monetary value.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "value": {
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
           "type": "string"
         }
       },
       "type": "object"
     },
     "title": {
+      "description": "Invoice title at the top of the document.",
       "type": "string"
     },
     "total": {
@@ -293,21 +344,25 @@
           "additionalProperties": true,
           "properties": {
             "symbol": {
+              "description": "Symbol used to denote that a number is a monetary value.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "value": {
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
           "type": "string"
         }
       },
       "type": "object"
     },
     "unitTitle": {
+      "description": "The label for the 'Unit' column in the listing of line items on the invoice.",
       "type": "string"
     },
     "viewUrl": {
+      "description": "URL to view the invoice online as seen by a customer.",
       "type": "string"
     }
   },

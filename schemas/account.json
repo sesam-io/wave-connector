@@ -2,7 +2,127 @@
   "$id": "/api/pipes/xxxxxx-account-collect/entity-types/sink",
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
-  "properties": {},
+  "properties": {
+    "$last-modified": {
+      "type": "null"
+    },
+    "balance": {
+      "type": "string",
+      "description": "The balance of the account as of the current date."
+    },
+    "balanceInBusinessCurrency": {
+      "type": "string",
+      "description": "The balance of the account as of the current date in the business currency."
+    },
+    "classicId": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "description": "The classic primary key used internally at Wave."
+        }
+      ]
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "exponent": {
+          "type": "integer",
+          "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Plain-language representation."
+        },
+        "plural": {
+          "type": "string",
+          "description": "Plural version of currency name."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Symbol used to denote that a number is a monetary value."
+        }
+      },
+      "type": "object"
+    },
+    "description": {
+      "type": "string",
+      "description": "User defined description for the account."
+    },
+    "displayId": {
+      "type": "null",
+      "description": "User defined id for the account."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the account."
+    },
+    "isArchived": {
+      "type": "boolean",
+      "description": "Indicates whether the account is hidden from view by default."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the account."
+    },
+    "normalBalanceType": {
+      "type": "string",
+      "description": "Credit or Debit."
+    },
+    "sequence": {
+      "type": "integer",
+      "description": "Numerically increasing version, each representing a revision of account data. As soon as something modifies an account, its sequence is incremented."
+    },
+    "subtype": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "description": "Account subtype description."
+            }
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "Account subtype name."
+        },
+        "value": {
+          "type": "string",
+          "description": "Account subtype value."
+        }
+      },
+      "type": "object"
+    },
+    "type": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Account type name."
+        },
+        "normalBalanceType": {
+          "type": "string",
+          "description": "Normal balance type of the account type"
+        },
+        "value": {
+          "type": "string",
+          "description": "Account type value."
+        }
+      },
+      "type": "object"
+    }
+  },
   "title": "Pipe sink entity type: xxxxxx-account-collect",
   "type": "object"
 }

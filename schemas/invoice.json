@@ -3,11 +3,367 @@
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
   "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "amountDue": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string",
+              "description": "Symbol used to denote that a number is a monetary value."
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+        }
+      },
+      "type": "object"
+    },
+    "amountPaid": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string",
+              "description": "Symbol used to denote that a number is a monetary value."
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+        }
+      },
+      "type": "object"
+    },
+    "amountTitle": {
+      "type": "string",
+      "description": "The label for the 'Amount' (= unit x price) column in the listing of line items on the invoice."
+    },
+    "business": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the business."
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "When the invoice was created."
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Currency code."
+        }
+      },
+      "type": "object"
+    },
+    "customer": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the customer."
+        }
+      },
+      "type": "object"
+    },
+    "disableBankPayments": {
+      "type": "boolean",
+      "description": "Within a business that is enabled to accept bank payments, indicates if this individual invoice has been marked to not be payable by bank payment."
+    },
+    "disableCreditCardPayments": {
+      "type": "boolean",
+      "description": "Within a business that is enabled to accept credit card payments, indicates if this individual invoice has been marked to not be payable by card."
+    },
+    "dueDate": {
+      "type": "string",
+      "description": "Date when payment is due."
+    },
+    "exchangeRate": {
+      "type": "string",
+      "description": "Exchange rate to business's currency from the invoice's currency. Used to value the invoice income within Wave's accounting transactions."
+    },
+    "footer": {
+      "type": "string",
+      "description": "Invoice footer text."
+    },
+    "hideAmount": {
+      "type": "boolean",
+      "description": "Indicates whether item's amount is hidden in the line items listing."
+    },
+    "hideDescription": {
+      "type": "boolean",
+      "description": "Indicates whether item's description in item column is hidden in the line items listing."
+    },
+    "hideName": {
+      "type": "boolean",
+      "description": "Indicates whether item's product name in item column is hidden in the line items listing."
+    },
+    "hidePrice": {
+      "type": "boolean",
+      "description": "Indicates whether item's price is hidden in the line items listing."
+    },
+    "hideUnit": {
+      "type": "boolean",
+      "description": "Indicates whether item's unit is hidden in the line items listing."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the invoice."
+    },
+    "invoiceDate": {
+      "type": "string",
+      "description": "Date when invoice is issued."
+    },
+    "invoiceNumber": {
+      "type": "string",
+      "description": "Unique number assigned to the invoice."
+    },
+    "itemTitle": {
+      "type": "string",
+      "description": "The label for the 'Item' column in the line items listing."
+    },
+    "items": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "account": {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the account."
+              },
+              "name": {
+                "type": "string",
+                "description": "ame of the account."
+              },
+              "subtype": {
+                "additionalProperties": true,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Account subtype name."
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "Account subtype value."
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description."
+          },
+          "price": {
+            "type": "string",
+            "description": "DEPRECATED! Price per unit."
+          },
+          "product": {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Associated product."
+              }
+            },
+            "type": "object"
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Number of units."
+          },
+          "subtotal": {
+            "additionalProperties": true,
+            "properties": {
+              "currency": {
+                "additionalProperties": true,
+                "properties": {
+                  "symbol": {
+                    "type": "string",
+                    "description": "Symbol used to denote that a number is a monetary value."
+                  }
+                },
+                "type": "object"
+              },
+              "value": {
+                "type": "string",
+                "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+              }
+            },
+            "type": "object"
+          },
+          "taxes": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "amount": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "value": {
+                      "type": "string",
+                      "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+                    }
+                  },
+                  "type": "object"
+                },
+                "salesTax": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier for the sales tax."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the tax."
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "total": {
+            "additionalProperties": true,
+            "properties": {
+              "currency": {
+                "additionalProperties": true,
+                "properties": {
+                  "symbol": {
+                    "type": "string",
+                    "description": "Symbol used to denote that a number is a monetary value."
+                  }
+                },
+                "type": "object"
+              },
+              "value": {
+                "type": "string",
+                "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
     "lastSentAt": {
-      "type": "datetime"
+      "type": "string",
+      "description": "When the invoice was last sent."
+    },
+    "lastSentVia": {
+      "type": "string",
+      "description": "How the invoice was last sent."
     },
     "lastViewedAt": {
-      "type": "datetime"
+      "type": "string",
+      "description": "When the invoice was last viewed by the customer."
+    },
+    "memo": {
+      "type": "string",
+      "description": "Invoice memo (notes) text."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "description": "When the invoice was last modified."
+    },
+    "pdfUrl": {
+      "type": "string",
+      "description": "URL to access PDF representation of the invoice."
+    },
+    "poNumber": {
+      "type": "string",
+      "description": "Purchase order or sales order number for the invoice."
+    },
+    "priceTitle": {
+      "type": "string",
+      "description": "The label for the 'Price' column in the listing of line items on the invoice."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the Invoice."
+    },
+    "subhead": {
+      "type": "string",
+      "description": "Invoice subheading text."
+    },
+    "taxTotal": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string",
+              "description": "Symbol used to denote that a number is a monetary value."
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+        }
+      },
+      "type": "object"
+    },
+    "title": {
+      "type": "string",
+      "description": "Invoice title at the top of the document."
+    },
+    "total": {
+      "additionalProperties": true,
+      "properties": {
+        "currency": {
+          "additionalProperties": true,
+          "properties": {
+            "symbol": {
+              "type": "string",
+              "description": "Symbol used to denote that a number is a monetary value."
+            }
+          },
+          "type": "object"
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+        }
+      },
+      "type": "object"
+    },
+    "unitTitle": {
+      "type": "string",
+      "description": "The label for the 'Unit' column in the listing of line items on the invoice."
+    },
+    "viewUrl": {
+      "type": "string",
+      "description": "URL to view the invoice online as seen by a customer."
     }
   },
   "title": "Pipe sink entity type: xxxxxx-invoice-collect",

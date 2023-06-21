@@ -11,6 +11,7 @@
       "additionalProperties": true,
       "properties": {
         "addressLine1": {
+          "description": "Address line 1 (Street address/PO Box/Company name).",
           "type": "string"
         },
         "addressLine2": {
@@ -19,32 +20,38 @@
               "type": "null"
             },
             {
+              "description": "Address line 2 (Apartment/Suite/Unit/Building).",
               "type": "string"
             }
           ]
         },
         "city": {
+          "description": "City/District/Suburb/Town/Village.",
           "type": "string"
         },
         "country": {
           "additionalProperties": true,
           "properties": {
             "code": {
+              "description": "Country code.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "postalCode": {
+          "description": "Zip/Postal Code.",
           "type": "string"
         },
         "province": {
           "additionalProperties": true,
           "properties": {
             "code": {
+              "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier.",
               "type": "string"
             },
             "name": {
+              "description": "Plain-lanuage representaton.",
               "type": "string"
             }
           },
@@ -57,57 +64,71 @@
       "additionalProperties": true,
       "properties": {
         "id": {
+          "description": "The unique identifier for the business.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "createdAt": {
+      "description": "When the customer was created.",
       "type": "string"
     },
     "currency": {
       "additionalProperties": true,
       "properties": {
         "code": {
+          "description": "Currency code.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "displayId": {
+      "description": "User defined id for the customer. Commonly referred to as Account Number.",
       "type": "string"
     },
     "email": {
+      "description": "Email of the principal contact.",
       "type": "string"
     },
     "fax": {
+      "description": "Fax number of the customer.",
       "type": "string"
     },
     "firstName": {
+      "description": "First name of the principal contact.",
       "type": "string"
     },
     "id": {
+      "description": "Unique identifier for the customer.",
       "type": "string"
     },
     "lastName": {
+      "description": "Last name of the principal contact.",
       "type": "string"
     },
     "mobile": {
+      "description": "Mobile telephone number of the principal contact.",
       "type": "string"
     },
     "modifiedAt": {
+      "description": "When the customer was last modified.",
       "type": "string"
     },
     "name": {
+      "description": "Name or business name of the customer.",
       "type": "string"
     },
     "outstandingAmount": {
       "additionalProperties": true,
       "properties": {
         "raw": {
+          "description": "DEPRECATED: Value represented in only the minor currency unit.",
           "type": "integer"
         },
         "value": {
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
           "type": "string"
         }
       },
@@ -117,21 +138,26 @@
       "additionalProperties": true,
       "properties": {
         "raw": {
+          "description": "DEPRECATED: Value represented in only the minor currency unit.",
           "type": "integer"
         },
         "value": {
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator).",
           "type": "string"
         }
       },
       "type": "object"
     },
     "phone": {
+      "description": "Telephone number of the customer.",
       "type": "string"
     },
     "tollFree": {
+      "description": "Toll-free number of the customer.",
       "type": "string"
     },
     "website": {
+      "description": "Website address of the customer.",
       "type": "string"
     }
   },

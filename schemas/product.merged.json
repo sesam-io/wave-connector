@@ -11,12 +11,14 @@
       "additionalProperties": true,
       "properties": {
         "id": {
+          "description": "The unique identifier for the business.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "createdAt": {
+      "description": "When the product was created.",
       "type": "string"
     },
     "defaultSalesTaxes": {
@@ -24,6 +26,7 @@
         "additionalProperties": true,
         "properties": {
           "id": {
+            "description": "The unique identifier for the sales tax.",
             "type": "string"
           }
         },
@@ -32,48 +35,59 @@
       "type": "array"
     },
     "description": {
+      "description": "Description of the product.",
       "type": "string"
     },
     "expenseAccount": {
       "additionalProperties": true,
       "properties": {
         "id": {
+          "description": "Unique identifier for the account.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "id": {
+      "description": "Unique identifier for the product.",
       "type": "string"
     },
     "incomeAccount": {
       "additionalProperties": true,
       "properties": {
         "id": {
+          "description": "Unique identifier for the account.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "internalId": {
+      "description": "DEPRECATED! The primary key used internally at Wave.",
       "type": "string"
     },
     "isArchived": {
+      "description": "Is the product hidden from view by default.",
       "type": "boolean"
     },
     "isBought": {
+      "description": "Is product bought by the business. Allow this product or service to be added to Bills.",
       "type": "boolean"
     },
     "isSold": {
+      "description": "Is product sold by the business. Allow this product or service to be added to Invoices.",
       "type": "boolean"
     },
     "modifiedAt": {
+      "description": "hen the product was last modified.",
       "type": "string"
     },
     "name": {
+      "description": "Name of the product.",
       "type": "string"
     },
     "unitPrice": {
+      "description": "Price per unit in the major currency unit.",
       "type": "string"
     }
   },

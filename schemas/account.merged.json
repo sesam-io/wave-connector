@@ -7,61 +7,68 @@
       "type": "null"
     },
     "balance": {
+      "description": "The balance of the account as of the current date.",
       "type": "string"
     },
     "balanceInBusinessCurrency": {
+      "description": "The balance of the account as of the current date in the business currency.",
       "type": "string"
     },
     "classicId": {
-      "anyOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "string"
-        }
-      ]
+      "type": "null"
     },
     "currency": {
       "additionalProperties": true,
       "properties": {
         "code": {
+          "description": "Currency code.",
           "type": "string"
         },
         "exponent": {
+          "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10).",
           "type": "integer"
         },
         "name": {
+          "description": "Plain-language representation.",
           "type": "string"
         },
         "plural": {
+          "description": "Plural version of currency name.",
           "type": "string"
         },
         "symbol": {
+          "description": "Symbol used to denote that a number is a monetary value.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "description": {
+      "description": "User defined description for the account.",
       "type": "string"
     },
     "displayId": {
+      "description": "User defined id for the account.",
       "type": "null"
     },
     "id": {
+      "description": "Unique identifier for the account.",
       "type": "string"
     },
     "isArchived": {
+      "description": "Indicates whether the account is hidden from view by default.",
       "type": "boolean"
     },
     "name": {
+      "description": "Name of the account.",
       "type": "string"
     },
     "normalBalanceType": {
+      "description": "Credit or Debit.",
       "type": "string"
     },
     "sequence": {
+      "description": "Numerically increasing version, each representing a revision of account data. As soon as something modifies an account, its sequence is incremented.",
       "type": "integer"
     },
     "subtype": {
@@ -73,14 +80,17 @@
               "type": "null"
             },
             {
+              "description": "Account subtype description.",
               "type": "string"
             }
           ]
         },
         "name": {
+          "description": "Account subtype name.",
           "type": "string"
         },
         "value": {
+          "description": "Account subtype value.",
           "type": "string"
         }
       },
@@ -90,12 +100,15 @@
       "additionalProperties": true,
       "properties": {
         "name": {
+          "description": "Account type name.",
           "type": "string"
         },
         "normalBalanceType": {
+          "description": "Normal balance type of the account type",
           "type": "string"
         },
         "value": {
+          "description": "Account type value.",
           "type": "string"
         }
       },

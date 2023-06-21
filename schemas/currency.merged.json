@@ -4,18 +4,23 @@
   "additionalProperties": true,
   "properties": {
     "code": {
+      "description": "Currency code.",
       "type": "string"
     },
     "exponent": {
+      "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10).",
       "type": "integer"
     },
     "name": {
+      "description": "Plain-language representation.",
       "type": "string"
     },
     "plural": {
+      "description": "Plural version of currency name.",
       "type": "string"
     },
     "symbol": {
+      "description": "Symbol used to denote that a number is a monetary value.",
       "type": "string"
     }
   },

@@ -11,33 +11,40 @@
       "additionalProperties": true,
       "properties": {
         "addressLine1": {
+          "description": "Address line 1 (Street address/PO Box/Company name).",
           "type": "string"
         },
         "addressLine2": {
+          "description": "Address line 2 (Apartment/Suite/Unit/Building).",
           "type": "string"
         },
         "city": {
+          "description": "City/District/Suburb/Town/Village.",
           "type": "string"
         },
         "country": {
           "additionalProperties": true,
           "properties": {
             "code": {
+              "description": "Country code.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "postalCode": {
+          "description": "Zip/Postal Code.",
           "type": "string"
         },
         "province": {
           "additionalProperties": true,
           "properties": {
             "code": {
+              "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier.",
               "type": "string"
             },
             "name": {
+              "description": "Plain-lanuage representaton.",
               "type": "string"
             }
           },
@@ -47,57 +54,73 @@
       "type": "object"
     },
     "createdAt": {
+      "description": "When the vendor was created.",
       "type": "string"
     },
     "currency": {
       "additionalProperties": true,
       "properties": {
         "code": {
+          "description": "Currency code.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "displayId": {
+      "description": "User defined id for the vendor. Commonly referred to as Account Number.",
       "type": "string"
     },
     "email": {
+      "description": "Email of the principal vendor.",
       "type": "string"
     },
     "fax": {
+      "description": "Fax number of the vendor.",
       "type": "string"
     },
     "firstName": {
+      "description": "The first name of the principal contact.",
       "type": "string"
     },
     "id": {
+      "description": "Unique identifier for the customer.",
       "type": "string"
     },
     "internalNotes": {
+      "description": "Internal notes about the vendor.",
       "type": "string"
     },
     "isArchived": {
+      "description": "Whether or not the vendor is archived.",
       "type": "boolean"
     },
     "lastName": {
+      "description": "The last name of the principal contact.",
       "type": "string"
     },
     "mobile": {
+      "description": "The mobile number of the vendor.",
       "type": "string"
     },
     "modifiedAt": {
+      "description": "When the vendor was last modified.",
       "type": "string"
     },
     "name": {
+      "description": "Name or business name of the vendor.",
       "type": "string"
     },
     "phone": {
+      "description": "The phone number of the vendor.",
       "type": "string"
     },
     "tollFree": {
+      "description": "Toll-free number of the vendor.",
       "type": "string"
     },
     "website": {
+      "description": "Website address of the vendor.",
       "type": "string"
     }
   },

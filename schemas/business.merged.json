@@ -11,60 +11,74 @@
       "additionalProperties": true,
       "properties": {
         "addressLine1": {
+          "description": "Address line 1 (Street address/PO Box/Company name).",
           "type": "string"
         },
         "addressLine2": {
+          "description": "Address line 2 (Apartment/Suite/Unit/Building).",
           "type": "string"
         },
         "city": {
+          "description": "City/District/Suburb/Town/Village.",
           "type": "string"
         },
         "country": {
           "additionalProperties": true,
           "properties": {
             "code": {
+              "description": "Country.",
               "type": "string"
             },
             "currency": {
               "additionalProperties": true,
               "properties": {
                 "code": {
+                  "description": "The currency of the business.",
                   "type": "string"
                 },
                 "exponent": {
+                  "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10).",
                   "type": "integer"
                 },
                 "name": {
+                  "description": "Plain-language representation.",
                   "type": "string"
                 },
                 "plural": {
+                  "description": "Plural version of currency name.",
                   "type": "string"
                 },
                 "symbol": {
+                  "description": "Symbol used to denote that a number is a monetary value.",
                   "type": "string"
                 }
               },
               "type": "object"
             },
             "name": {
+              "description": "Plain-language representation.",
               "type": "string"
             },
             "nameWithArticle": {
+              "description": "Name of the country with the appropriate article.",
               "type": "string"
             }
           },
           "type": "object"
         },
         "postalCode": {
+          "description": "Zip/Postal Code.",
           "type": "string"
         },
         "province": {
           "additionalProperties": true,
           "properties": {
             "code": {
+              "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier.",
               "type": "string"
             },
             "name": {
+              "description": "Plain-lanuage representaton.",
               "type": "string"
             }
           },
@@ -74,21 +88,25 @@
       "type": "object"
     },
     "createdAt": {
+      "description": "When the business was created.",
       "type": "string"
     },
     "currency": {
       "additionalProperties": true,
       "properties": {
         "code": {
+          "name": "Currency code.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "fax": {
+      "description": "The fax number of the business.",
       "type": "string"
     },
     "id": {
+      "description": "The unique identifier for the business.",
       "type": "string"
     },
     "invoiceEstimateSettings": {
@@ -98,10 +116,12 @@
           "additionalProperties": true,
           "properties": {
             "accentColor": {
+              "description": "Color to represent the brand of the business.",
               "type": "string"
             },
             "logoUrl": {
-              "type": "null"
+              "description": "Logo of the business.",
+              "type": "string"
             }
           },
           "type": "object"
@@ -110,27 +130,35 @@
       "type": "object"
     },
     "isArchived": {
+      "description": "Is the business hidden from view by default.",
       "type": "boolean"
     },
     "isClassicAccounting": {
+      "description": "DEPRECATED! Does business use classic invoicing system.",
       "type": "boolean"
     },
     "isPersonal": {
+      "description": "Is the business a personal one with limited functionality compared to regular businesses.",
       "type": "boolean"
     },
     "mobile": {
+      "description": "The mobile/cell number of the business.",
       "type": "string"
     },
     "modifiedAt": {
+      "description": "When the business was created.",
       "type": "string"
     },
     "name": {
+      "description": "The name of the business.",
       "type": "string"
     },
     "organizationalType": {
+      "description": "The organization type of the business.",
       "type": "string"
     },
     "phone": {
+      "description": "The phone number of the business.",
       "type": "string"
     },
     "salesTaxes": {
@@ -144,6 +172,7 @@
                 "additionalProperties": true,
                 "properties": {
                   "id": {
+                    "description": "The unique identifier for the sales tax.",
                     "type": "string"
                   }
                 },
@@ -161,33 +190,40 @@
       "additionalProperties": true,
       "properties": {
         "name": {
+          "description": "Account subtype name.",
           "type": "string"
         },
         "value": {
+          "description": "Account subtype value.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "timezone": {
+      "description": "The timezone of the business.",
       "type": "string"
     },
     "tollFree": {
+      "description": "The toll free number of the business.",
       "type": "string"
     },
     "type": {
       "additionalProperties": true,
       "properties": {
         "name": {
+          "description": "The description of the business type in human-friendly form.",
           "type": "string"
         },
         "value": {
+          "description": "The enum value of the business type.",
           "type": "string"
         }
       },
       "type": "object"
     },
     "website": {
+      "description": "The website of the business.",
       "type": "string"
     }
   },

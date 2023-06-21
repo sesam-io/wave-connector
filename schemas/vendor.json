@@ -3,23 +3,125 @@
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
   "properties": {
-    "displayId": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
       "type": "string"
+    },
+    "address": {
+      "additionalProperties": true,
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "description": "Address line 1 (Street address/PO Box/Company name)."
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Address line 2 (Apartment/Suite/Unit/Building)."
+        },
+        "city": {
+          "type": "string",
+          "description": "City/District/Suburb/Town/Village."
+        },
+        "country": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Country code."
+            }
+          },
+          "type": "object"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Zip/Postal Code."
+        },
+        "province": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier."
+            },
+            "name": {
+              "type": "string",
+              "description": "Plain-lanuage representaton."
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "When the vendor was created."
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Currency code."
+        }
+      },
+      "type": "object"
+    },
+    "displayId": {
+      "type": "string",
+      "description": "User defined id for the vendor. Commonly referred to as Account Number."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the principal vendor."
     },
     "fax": {
-      "type": "string"
+      "type": "string",
+      "description": "Fax number of the vendor."
+    },
+    "firstName": {
+      "type": "string",
+      "description": "The first name of the principal contact."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the customer."
+    },
+    "internalNotes": {
+      "type": "string",
+      "description": "Internal notes about the vendor."
+    },
+    "isArchived": {
+      "type": "boolean",
+      "description": "Whether or not the vendor is archived."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "The last name of the principal contact."
     },
     "mobile": {
-      "type": "string"
+      "type": "string",
+      "description": "The mobile number of the vendor."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "description": "When the vendor was last modified."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name or business name of the vendor."
     },
     "phone": {
-      "type": "string"
+      "type": "string",
+      "description": "The phone number of the vendor."
     },
     "tollFree": {
-      "type": "string"
+      "type": "string",
+      "description": "Toll-free number of the vendor."
     },
     "website": {
-      "type": "string"
+      "type": "string",
+      "description": "Website address of the vendor."
     }
   },
   "title": "Pipe sink entity type: xxxxxx-vendor-collect",

@@ -3,17 +3,162 @@
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
   "properties": {
-    "displayId": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
       "type": "string"
+    },
+    "address": {
+      "additionalProperties": true,
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "description": "Address line 1 (Street address/PO Box/Company name)."
+        },
+        "addressLine2": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "description": "Address line 2 (Apartment/Suite/Unit/Building)."
+            }
+          ]
+        },
+        "city": {
+          "type": "string",
+          "description": "City/District/Suburb/Town/Village."
+        },
+        "country": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Country code."
+            }
+          },
+          "type": "object"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Zip/Postal Code."
+        },
+        "province": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier."
+            },
+            "name": {
+              "type": "string",
+              "description": "Plain-lanuage representaton."
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "business": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the business."
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "When the customer was created."
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Currency code."
+        }
+      },
+      "type": "object"
+    },
+    "displayId": {
+      "type": "string",
+      "description": "User defined id for the customer. Commonly referred to as Account Number."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the principal contact."
     },
     "fax": {
-      "type": "string"
+      "type": "string",
+      "description": "Fax number of the customer."
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name of the principal contact."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the customer."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name of the principal contact."
     },
     "mobile": {
-      "type": "string"
+      "type": "string",
+      "description": "Mobile telephone number of the principal contact."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "description": "When the customer was last modified."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name or business name of the customer."
+    },
+    "outstandingAmount": {
+      "additionalProperties": true,
+      "properties": {
+        "raw": {
+          "type": "integer",
+          "description": "DEPRECATED: Value represented in only the minor currency unit."
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+        }
+      },
+      "type": "object"
+    },
+    "overdueAmount": {
+      "additionalProperties": true,
+      "properties": {
+        "raw": {
+          "type": "integer",
+          "description": "DEPRECATED: Value represented in only the minor currency unit."
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount represented as a combination of the major and minor currency unit (uses a decimal separator)."
+        }
+      },
+      "type": "object"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Telephone number of the customer."
     },
     "tollFree": {
-      "type": "string"
+      "type": "string",
+      "description": "Toll-free number of the customer."
+    },
+    "website": {
+      "type": "string",
+      "description": "Website address of the customer."
     }
   },
   "title": "Pipe sink entity type: xxxxxx-customer-collect",
