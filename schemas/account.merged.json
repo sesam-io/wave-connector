@@ -15,7 +15,8 @@
       "type": "string"
     },
     "classicId": {
-      "type": "null"
+      "description": "The classic primary key used internally at Wave.",
+      "type": "string"
     },
     "currency": {
       "additionalProperties": true,
@@ -49,7 +50,7 @@
     },
     "displayId": {
       "description": "User defined id for the account.",
-      "type": "null"
+      "type": "string"
     },
     "id": {
       "description": "Unique identifier for the account.",
