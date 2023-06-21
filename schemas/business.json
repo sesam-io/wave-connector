@@ -2,7 +2,231 @@
   "$id": "/api/pipes/xxxxxx-business-collect/entity-types/sink",
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
-  "properties": {},
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "address": {
+      "additionalProperties": true,
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "description": "Address line 1 (Street address/PO Box/Company name)."
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Address line 2 (Apartment/Suite/Unit/Building)."
+        },
+        "city": {
+          "type": "string",
+          "description": "City/District/Suburb/Town/Village."
+        },
+        "country": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Country."
+            },
+            "currency": {
+              "additionalProperties": true,
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The currency of the business."
+                },
+                "exponent": {
+                  "type": "integer",
+                  "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10)."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Plain-language representation."
+                },
+                "plural": {
+                  "type": "string",
+                  "description": "Plural version of currency name."
+                },
+                "symbol": {
+                  "type": "string",
+                  "description": "Symbol used to denote that a number is a monetary value."
+                }
+              },
+              "type": "object"
+            },
+            "name": {
+              "type": "string",
+              "description": "Plain-language representation."
+            },
+            "nameWithArticle": {
+              "type": "string",
+              "description": "Name of the country with the appropriate article."
+            }
+          },
+          "type": "object"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Zip/Postal Code."
+        },
+        "province": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier."
+            },
+            "name": {
+              "type": "string",
+              "description": "Plain-lanuage representaton."
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "When the business was created."
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "name": "Currency code."
+        }
+      },
+      "type": "object"
+    },
+    "fax": {
+      "type": "string",
+      "description": "The fax number of the business."
+    },
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the business."
+    },
+    "invoiceEstimateSettings": {
+      "additionalProperties": true,
+      "properties": {
+        "generalSettings": {
+          "additionalProperties": true,
+          "properties": {
+            "accentColor": {
+              "type": "string",
+              "description": "Color to represent the brand of the business."
+            },
+            "logoUrl": {
+              "type": "string",
+              "description": "Logo of the business."
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "isArchived": {
+      "type": "boolean",
+      "description": "Is the business hidden from view by default."
+    },
+    "isClassicAccounting": {
+      "type": "boolean",
+      "description": "DEPRECATED! Does business use classic invoicing system."
+    },
+    "isPersonal": {
+      "type": "boolean",
+      "description": "Is the business a personal one with limited functionality compared to regular businesses."
+    },
+    "mobile": {
+      "type": "string",
+      "description": "The mobile/cell number of the business."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "description": "When the business was created."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the business."
+    },
+    "organizationalType": {
+      "type": "string",
+      "description": "The organization type of the business."
+    },
+    "phone": {
+      "type": "string",
+      "description": "The phone number of the business."
+    },
+    "salesTaxes": {
+      "additionalProperties": true,
+      "properties": {
+        "edges": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "node": {
+                "additionalProperties": true,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The unique identifier for the sales tax."
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "subtype": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Account subtype name."
+        },
+        "value": {
+          "type": "string",
+          "description": "Account subtype value."
+        }
+      },
+      "type": "object"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "The timezone of the business."
+    },
+    "tollFree": {
+      "type": "string",
+      "description": "The toll free number of the business."
+    },
+    "type": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The description of the business type in human-friendly form."
+        },
+        "value": {
+          "type": "string",
+          "description": "The enum value of the business type."
+        }
+      },
+      "type": "object"
+    },
+    "website": {
+      "type": "string",
+      "description": "The website of the business."
+    }
+  },
   "title": "Pipe sink entity type: xxxxxx-business-collect",
   "type": "object"
 }

@@ -2,7 +2,95 @@
   "$id": "/api/pipes/xxxxxx-product-collect/entity-types/sink",
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
-  "properties": {},
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "business": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the business."
+        }
+      },
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "When the product was created."
+    },
+    "defaultSalesTaxes": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the sales tax."
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the product."
+    },
+    "expenseAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the account."
+        }
+      },
+      "type": "object"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the product."
+    },
+    "incomeAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the account."
+        }
+      },
+      "type": "object"
+    },
+    "internalId": {
+      "type": "string",
+      "description": "DEPRECATED! The primary key used internally at Wave."
+    },
+    "isArchived": {
+      "type": "boolean",
+      "description": "Is the product hidden from view by default."
+    },
+    "isBought": {
+      "type": "boolean",
+      "description": "Is product bought by the business. Allow this product or service to be added to Bills."
+    },
+    "isSold": {
+      "type": "boolean",
+      "description": "Is product sold by the business. Allow this product or service to be added to Invoices."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "description": "hen the product was last modified."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the product."
+    },
+    "unitPrice": {
+      "type": "string",
+      "description": "Price per unit in the major currency unit."
+    }
+  },
   "title": "Pipe sink entity type: xxxxxx-product-collect",
   "type": "object"
 }

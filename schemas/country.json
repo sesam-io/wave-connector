@@ -2,7 +2,47 @@
   "$id": "/api/pipes/xxxxxx-country-collect/entity-types/sink",
   "$schema": "http://json-schema.org/schema#",
   "additionalProperties": true,
-  "properties": {},
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Country code."
+    },
+    "currency": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Currency code."
+        }
+      },
+      "type": "object"
+    },
+    "name": {
+      "type": "string",
+      "description": "Plain-language representation."
+    },
+    "nameWithArticle": {
+      "type": "string",
+      "description": "Name of the country with the appropriate article."
+    },
+    "provinces": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Plain-lanuage representaton."
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
   "title": "Pipe sink entity type: xxxxxx-country-collect",
   "type": "object"
 }
