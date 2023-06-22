@@ -4,7 +4,6 @@
     "token_url": {}
   },
   "auth": "oauth2",
-  "system": "Wave",
   "datatypes": {
     "account": {
       "label": "Account",
@@ -34,6 +33,10 @@
       "label": "Product",
       "template": "templates/customer.json"
     },
+    "salestax": {
+      "label": "SalesTax",
+      "template": "templates/customer.json"
+    },
     "vendor": {
       "label": "Vendor",
       "template": "templates/business.json"
@@ -55,5 +58,6 @@
     "tenant_id_expression": "businessId",
     "token_url": "https://api.waveapps.com/oauth2/token/"
   },
+  "system": "Wave",
   "system-template": "templates/system.json"
 }

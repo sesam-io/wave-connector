@@ -303,6 +303,58 @@
       },
       "url": ""
     },
+    "salestax-insert": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: SalesTaxCreateInput!) { salesTaxCreate(input: $input) { didSucceed inputErrors { code message path } salesTax { id name description abbreviation taxNumber showTaxNumberOnInvoices rates { effective rate } } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "payload_property": "data.salesTaxCreate.salesTax",
+      "url": ""
+    },
+    "salestax-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
+      },
+      "id_expression": "{{ node.id }}",
+      "method": "POST",
+      "payload": {
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) { business(id: $business_id) { id salesTaxes(page: $page, pageSize: $pageSize) { edges { node { id name abbreviation description taxNumber showTaxNumberOnInvoices rate rates { effective rate } isCompound isRecoverable isArchived createdAt modifiedAt } } } } }",
+        "variables": {
+          "business_id": "{{@ account_id @}}",
+          "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
+          "pageSize": 2
+        }
+      },
+      "payload_property": "data.business.salesTaxes.edges",
+      "url": ""
+    },
+    "salestax-lookup": {
+      "method": "POST",
+      "payload": {
+        "query": "query($businessId: ID!, $salesTaxId: ID!) { business(id: $businessId) { id salesTax(id: $salesTaxId) { id name abbreviation description taxNumber showTaxNumberOnInvoices rate rates { effective rate } isCompound isRecoverable isArchived createdAt modifiedAt } } }",
+        "variables": {
+          "businessId": "{{@ account_id @}}",
+          "salesTaxId": "{{ entity.id }}"
+        }
+      },
+      "payload_property": "data.business.salesTax",
+      "url": ""
+    },
+    "salestax-update": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: SalesTaxPatchInput!) { salesTaxPatch(input: $input) { didSucceed salesTax { id } } }",
+        "variables": {
+          "input": "{{ entity.payload2 | tojson }}sesam:markjson"
+        }
+      },
+      "url": ""
+    },
     "vendor-list": {
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
