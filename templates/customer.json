@@ -82,32 +82,54 @@
                   "if",
                   [
                     "is-not-null",
-                    "_S.{{@ datatype @}}.id"
+                    "_S.customer.id"
                   ],
                   [
                     [
                       "add",
-                      "{{@ datatype @}}Id",
-                      "_S.{{@ datatype @}}.id"
+                      "customerId",
+                      "_S.customer.id"
                     ],
                     [
                       "remove",
-                      "{{@ datatype @}}"
+                      "customer"
                     ]
                   ]
                 ],
-                ["if",
-                  ["is-not-null", "_S.expenseAccount.id"],
+                [
+                  "if",
                   [
-                    ["add", "expenseAccountId", "_S.expenseAccount.id"],
-                    ["remove", "expenseAccount"]
+                    "is-not-null",
+                    "_S.expenseAccount.id"
+                  ],
+                  [
+                    [
+                      "add",
+                      "expenseAccountId",
+                      "_S.expenseAccount.id"
+                    ],
+                    [
+                      "remove",
+                      "expenseAccount"
+                    ]
                   ]
                 ],
-                ["if",
-                  ["is-not-null", "_S.incomeAccount.id"],
+                [
+                  "if",
                   [
-                    ["add", "incomeAccountId", "_S.incomeAccount.id"],
-                    ["remove", "incomeAccount"]
+                    "is-not-null",
+                    "_S.incomeAccount.id"
+                  ],
+                  [
+                    [
+                      "add",
+                      "incomeAccountId",
+                      "_S.incomeAccount.id"
+                    ],
+                    [
+                      "remove",
+                      "incomeAccount"
+                    ]
                   ]
                 ],
                 [
