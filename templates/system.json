@@ -304,6 +304,19 @@
       },
       "url": ""
     },
+    "salestax-delete": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
+      "method": "POST",
+      "payload": {
+        "query": "mutation($input: SalesTaxArchiveInput!) { salesTaxArchive(input: $input) { didSucceed inputErrors { code message path } } }",
+        "variables": {
+          "input": {
+            "id": "{{ entity.id }}"
+          }
+        }
+      },
+      "url": ""
+    },
     "salestax-insert": {
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",

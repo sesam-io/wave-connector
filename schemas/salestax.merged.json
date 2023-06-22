@@ -1,0 +1,78 @@
+{
+  "$id": "/api/pipes/xxxxxx-salestax-collect/entity-types/sink",
+  "$schema": "http://json-schema.org/schema#",
+  "additionalProperties": true,
+  "properties": {
+    "$last-modified": {
+      "subtype": "nanoseconds",
+      "type": "string"
+    },
+    "abbreviation": {
+      "description": "A short form or code representing the sales tax.",
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "When the sales tax was created.",
+      "type": "string"
+    },
+    "description": {
+      "description": "User defined description for the sales tax.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier for the sales tax.",
+      "type": "string"
+    },
+    "isArchived": {
+      "description": "Is the sales tax hidden from view by default.",
+      "type": "boolean"
+    },
+    "isCompound": {
+      "description": "Is a compound tax, or stacked tax. This tax is calculated on top of the subtotal and other tax amounts.",
+      "type": "boolean"
+    },
+    "isRecoverable": {
+      "description": "Is a recoverable tax. It is recoverable if you can deduct the tax that you as a business paid from the tax that you have collected.",
+      "type": "boolean"
+    },
+    "modifiedAt": {
+      "description": "When the sales tax was last modified.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name of the tax.",
+      "type": "string"
+    },
+    "rate": {
+      "description": "Tax rate effective on 'for' date, or current date if no parameter, as a decimal (e.g. 0.15 represents 15%).",
+      "type": "string"
+    },
+    "rates": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "effective": {
+            "description": "Date from which the sales tax rate applies.",
+            "type": "string"
+          },
+          "rate": {
+            "description": "Tax rate applying from the effective date as a decimal (e.g. 0.15 represents 15%).",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "showTaxNumberOnInvoices": {
+      "description": "Display tax number beside the tax name on an invoice.",
+      "type": "boolean"
+    },
+    "taxNumber": {
+      "description": "The tax's issued identification number from a taxing authority.",
+      "type": "string"
+    }
+  },
+  "title": "Pipe sink entity type: xxxxxx-salestax-collect",
+  "type": "object"
+}
