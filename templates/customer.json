@@ -73,9 +73,41 @@
                 "_S.id"
               ],
               [
-                "add",
-                "businessId",
-                "{{@ account_id @}}"
+                [
+                  "add",
+                  "businessId",
+                  "{{@ account_id @}}"
+                ],
+                ["if",
+                  ["is-not-null", "_S.customer.id"],
+                  [
+                    ["add", "customerId", "_S.customer.id"],
+                    ["remove", "customer"]
+                  ]
+                ],
+                ["remove", "id"],
+                ["add", "$payload",
+                  ["apply", "payload", "_T."]
+                ]
+              ]
+            ]
+          ],
+          "payload": [
+            ["merge",
+              ["dict",
+                ["filter",
+                  ["not",
+                    ["or",
+                      ["matches", "_*",
+                        ["first", "_."]
+                      ],
+                      ["matches", "$*",
+                        ["first", "_."]
+                      ]
+                    ]
+                  ],
+                  ["items", "_S."]
+                ]
               ]
             ]
           ]

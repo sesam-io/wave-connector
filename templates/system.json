@@ -131,6 +131,7 @@
           "input": "{{ entity.payload2 | tojson }}sesam:markjson"
         }
       },
+      "payload_property": "data.customerCreate.customer",
       "url": ""
     },
     "customer-list": {
