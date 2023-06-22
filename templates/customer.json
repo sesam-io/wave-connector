@@ -85,6 +85,20 @@
                     ["remove", "customer"]
                   ]
                 ],
+                ["if",
+                  ["is-not-null", "_S.expenseAccount.id"],
+                  [
+                    ["add", "expenseAccountId", "_S.expenseAccount.id"],
+                    ["remove", "expenseAccount"]
+                  ]
+                ],
+                ["if",
+                  ["is-not-null", "_S.incomeAccount.id"],
+                  [
+                    ["add", "incomeAccountId", "_S.incomeAccount.id"],
+                    ["remove", "incomeAccount"]
+                  ]
+                ],
                 ["remove", "id"],
                 ["add", "$payload",
                   ["apply", "payload", "_T."]
