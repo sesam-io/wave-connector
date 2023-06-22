@@ -82,17 +82,17 @@
                   "if",
                   [
                     "is-not-null",
-                    "_S.{{@ datatype @}}.id"
+                    "_S.customer.id"
                   ],
                   [
                     [
                       "add",
-                      "{{@ datatype @}}Id",
-                      "_S.{{@ datatype @}}.id"
+                      "customerId",
+                      "_S.customer.id"
                     ],
                     [
                       "remove",
-                      "{{@ datatype @}}"
+                      "customer"
                     ]
                   ]
                 ],
