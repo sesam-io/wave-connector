@@ -78,35 +78,73 @@
                   "businessId",
                   "{{@ account_id @}}"
                 ],
-                ["if",
-                  ["is-not-null", "_S.customer.id"],
+                [
+                  "if",
                   [
-                    ["add", "customerId", "_S.customer.id"],
-                    ["remove", "customer"]
+                    "is-not-null",
+                    "_S.{{@ datatype @}}.id"
+                  ],
+                  [
+                    [
+                      "add",
+                      "{{@ datatype @}}Id",
+                      "_S.{{@ datatype @}}.id"
+                    ],
+                    [
+                      "remove",
+                      "{{@ datatype @}}"
+                    ]
                   ]
                 ],
-                ["remove", "id"],
-                ["add", "$payload",
-                  ["apply", "payload", "_T."]
+                [
+                  "remove",
+                  "id"
+                ],
+                [
+                  "add",
+                  "$payload",
+                  [
+                    "apply",
+                    "payload",
+                    "_T."
+                  ]
                 ]
               ]
             ]
           ],
           "payload": [
-            ["merge",
-              ["dict",
-                ["filter",
-                  ["not",
-                    ["or",
-                      ["matches", "_*",
-                        ["first", "_."]
+            [
+              "merge",
+              [
+                "dict",
+                [
+                  "filter",
+                  [
+                    "not",
+                    [
+                      "or",
+                      [
+                        "matches",
+                        "_*",
+                        [
+                          "first",
+                          "_."
+                        ]
                       ],
-                      ["matches", "$*",
-                        ["first", "_."]
+                      [
+                        "matches",
+                        "$*",
+                        [
+                          "first",
+                          "_."
+                        ]
                       ]
                     ]
                   ],
-                  ["items", "_S."]
+                  [
+                    "items",
+                    "_S."
+                  ]
                 ]
               ]
             ]
