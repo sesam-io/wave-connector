@@ -34,6 +34,7 @@
       "url": ""
     },
     "account-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
@@ -51,6 +52,7 @@
       "url": ""
     },
     "account-lookup": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
         "query": "query($businessId: ID!, $accountId: ID!) { business(id: $businessId) { id account(id: $accountId) { id classicId name description displayId currency { code symbol name plural exponent } type { name normalBalanceType value } subtype { name value description } normalBalanceType sequence isArchived balance balanceInBusinessCurrency } } } ",
@@ -74,6 +76,7 @@
       "url": ""
     },
     "business-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
@@ -90,6 +93,7 @@
       "url": ""
     },
     "country-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "id_expression": "{{ code }}",
       "method": "POST",
       "payload": {
@@ -100,6 +104,7 @@
       "url": ""
     },
     "currency-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "id_expression": "{{ code }}",
       "method": "POST",
       "payload": {
@@ -135,6 +140,7 @@
       "url": ""
     },
     "customer-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
@@ -152,6 +158,7 @@
       "url": ""
     },
     "customer-lookup": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
         "query": "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
@@ -200,6 +207,7 @@
       "url": ""
     },
     "invoice-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
@@ -217,6 +225,7 @@
       "url": ""
     },
     "invoice-lookup": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
         "query": "query($businessId: ID!, $invoiceId: ID!) { business(id: $businessId) { id invoice(id: $invoiceId) { id business { id } createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer { id } currency { code } dueDate amountDue { value currency { symbol } } amountPaid { value currency { symbol } } taxTotal { value currency { symbol } } total { value currency { symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items { product { id } description quantity price subtotal { value currency { symbol } } total { value currency { symbol } } account { id name subtype { name value } } taxes { amount { value } salesTax { id name } } } lastSentAt lastSentVia lastViewedAt } } }",
@@ -265,6 +274,7 @@
       "url": ""
     },
     "product-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
@@ -282,6 +292,7 @@
       "url": ""
     },
     "product-lookup": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
         "query": "query($businessId: ID!, $productId: ID!) { business(id: $businessId) { id product(id: $productId) { business { id } incomeAccount { id } expenseAccount { id } defaultSalesTaxes { id } id internalId name description unitPrice isSold isBought isArchived createdAt modifiedAt } } }",
@@ -330,6 +341,7 @@
       "url": ""
     },
     "salestax-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
@@ -347,6 +359,7 @@
       "url": ""
     },
     "salestax-lookup": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
         "query": "query($businessId: ID!, $salesTaxId: ID!) { business(id: $businessId) { id salesTax(id: $salesTaxId) { id name abbreviation description taxNumber showTaxNumberOnInvoices rate rates { effective rate } isCompound isRecoverable isArchived createdAt modifiedAt } } }",
@@ -370,6 +383,7 @@
       "url": ""
     },
     "vendor-list": {
+      "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
