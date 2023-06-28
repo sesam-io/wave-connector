@@ -15,15 +15,8 @@
           "type": "string"
         },
         "addressLine2": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "description": "Address line 2 (Apartment/Suite/Unit/Building).",
-              "type": "string"
-            }
-          ]
+          "description": "Address line 2 (Apartment/Suite/Unit/Building).",
+          "type": "string"
         },
         "city": {
           "description": "City/District/Suburb/Town/Village.",
@@ -151,6 +144,125 @@
     "phone": {
       "description": "Telephone number of the customer.",
       "type": "string"
+    },
+    "shippingDetails": {
+      "additionalProperties": true,
+      "properties": {
+        "address": {
+          "additionalProperties": true,
+          "properties": {
+            "addressLine1": {
+              "descriptin": "Address line 1 (Street address/PO Box/Company name).",
+              "type": "string"
+            },
+            "addressLine2": {
+              "description": "Address line 2 (Apartment/Suite/Unit/Building).",
+              "type": "string"
+            },
+            "city": {
+              "description": "City/District/Suburb/Town/Village.",
+              "type": "string"
+            },
+            "country": {
+              "additionalProperties": true,
+              "properties": {
+                "code": {
+                  "description": "Country code.",
+                  "type": "string"
+                },
+                "currency": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "code": {
+                      "description": "Currency code.",
+                      "type": "string"
+                    },
+                    "exponent": {
+                      "description": "Expresses the relationship between a major currency unit and its minor currency unit. The number of digits found to the right of the decimal place to represent the fractional part of this currency (assumes a base of 10).",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "Plain-language representation.",
+                      "type": "string"
+                    },
+                    "plural": {
+                      "description": "Plural version of currency name.",
+                      "type": "string"
+                    },
+                    "symbol": {
+                      "description": "Symbol used to denote that a number is a monetary value.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "name": {
+                  "description": "Plain-language representation.",
+                  "type": "string"
+                },
+                "nameWithArticle": {
+                  "description": "Name of the country with the appropriate article.",
+                  "type": "string"
+                },
+                "provinces": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "code": {
+                        "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier.",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Plain-lanuage representaton.",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "postalCode": {
+              "description": "Zip/Postal Code.",
+              "type": "string"
+            },
+            "province": {
+              "additionalProperties": true,
+              "properties": {
+                "code": {
+                  "description": "[ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) identifier.",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "Plain-lanuage representaton.",
+                  "type": "string"
+                },
+                "slug": {
+                  "description": "DEPRECATED Informal name for identification.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "instructions": {
+          "description": "Delivery instructions for handling.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name or business name of the customer.",
+          "type": "string"
+        },
+        "phone": {
+          "description": "Telephone number of the customer.",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "tollFree": {
       "description": "Toll-free number of the customer.",

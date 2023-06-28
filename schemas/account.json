@@ -4,7 +4,7 @@
   "additionalProperties": true,
   "properties": {
     "$last-modified": {
-      "type": "null"
+      "type": "string"
     },
     "balance": {
       "type": "string",
@@ -76,16 +76,9 @@
       "additionalProperties": true,
       "properties": {
         "description": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string",
-              "description": "Account subtype description."
-            }
-          ]
-        },
+          "type": "string",
+          "description": "Account subtype description."
+         },
         "name": {
           "type": "string",
           "description": "Account subtype name."
