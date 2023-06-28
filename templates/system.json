@@ -147,7 +147,7 @@
       "id_expression": "{{ node.id }}",
       "method": "POST",
       "payload": {
-        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id customers (page: $page, pageSize: $pageSize) { edges { node {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } } } }",
+        "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) { business(id: $business_id) { id customers(page: $page, pageSize: $pageSize) { edges { node { id name business { id } firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code } postalCode } currency { code } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } shippingDetails { name address { addressLine1 addressLine2 city province {name code slug } country { code name currency { code symbol name plural exponent } nameWithArticle provinces { code name } } postalCode } phone instructions } } } } } }",
         "variables": {
           "business_id": "{{@ account_id @}}",
           "page": "{{ headers['X-Sesam-Page'] }}sesam:markjson",
