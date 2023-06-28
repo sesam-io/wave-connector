@@ -161,7 +161,7 @@
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "method": "POST",
       "payload": {
-        "query": "query ($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) {id name business {id} firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } currency { code  } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } } } }",
+        "query": "query($businessId: ID!, $customerId: ID!) { business(id: $businessId) { id customer(id: $customerId) { id name business { id } firstName lastName email mobile phone fax tollFree website displayId address { addressLine1 addressLine2 city province { code name } country { code } postalCode } currency { code } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } shippingDetails { name address { addressLine1 addressLine2 city province { name code slug } country { code name currency { code symbol name plural exponent } nameWithArticle provinces { code name } } postalCode } phone instructions } } } }",
         "variables": {
           "businessId": "{{@ account_id @}}",
           "customerId": "{{ entity.id }}"
