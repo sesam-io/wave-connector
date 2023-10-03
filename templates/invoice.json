@@ -44,7 +44,6 @@
   {
     "_id": "{{@ system @}}-{{@ datatype @}}-share",
     "batch_size": 1,
-    "comment": "TODO need to validate the responses from each operation, as status codes are always 200",
     "namespaced_identifiers": false,
     "sink": {
       "deletion_tracking": false,
