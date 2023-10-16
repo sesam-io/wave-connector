@@ -172,41 +172,84 @@
                 "if",
                 [
                   "is-not-null",
-                  "_S.items"
-                ],
-                [
-                  "add",
-                  "items",
                   [
-                    "apply",
-                    "items",
+                    "filter",
+                    [
+                      "is-not-null",
+                      "_.product.id"
+                    ],
                     "_S.items"
                   ]
+                ],
+                [
+                  "merge",
+                  [
+                    "dict",
+                    "items",
+                    [
+                      "map",
+                      [
+                        "apply",
+                        "items",
+                        "_."
+                      ],
+                      [
+                        "filter",
+                        [
+                          "is-not-null",
+                          "_.product.id"
+                        ],
+                        "_S.items"
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "remove",
+                  "items"
                 ]
               ]
             ],
             "items": [
               [
-                "copy",
-                "*"
-              ],
-              [
-                "add",
-                "productId",
-                "_S.product.id"
-              ],
-              [
-                "remove",
-                "product"
-              ],
-              [
-                "add",
-                "unitPrice",
-                "_S.price"
-              ],
-              [
-                "remove",
-                "price"
+                "if",
+                [
+                  "is-not-null",
+                  "_S.product.id"
+                ],
+                [
+                  [
+                    "copy",
+                    "*"
+                  ],
+                  [
+                    "add",
+                    "productId",
+                    "_S.product.id"
+                  ],
+                  [
+                    "remove",
+                    "product"
+                  ],
+                  [
+                    "if",
+                    [
+                      "is-not-null",
+                      "_S.price"
+                    ],
+                    [
+                      [
+                        "add",
+                        "unitPrice",
+                        "_S.price"
+                      ],
+                      [
+                        "remove",
+                        "price"
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ],
             "rewrite_insert_payload": [
