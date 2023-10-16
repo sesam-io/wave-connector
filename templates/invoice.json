@@ -209,6 +209,17 @@
                 "price"
               ]
             ],
+            "rewrite_insert_payload": [
+              [
+                "add",
+                "$payload",
+                [
+                  "apply",
+                  "build-payload",
+                  "_S."
+                ]
+              ]
+            ],
             "rewrite_update_payload": [
               [
                 "add",
