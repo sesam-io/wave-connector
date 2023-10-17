@@ -164,44 +164,23 @@
             ],
             "items": [
               [
-                "if",
+                "copy",
+                "*",
                 [
-                  "is-not-null",
-                  "_S.product.id"
-                ],
-                [
-                  [
-                    "copy",
-                    "*"
-                  ],
-                  [
-                    "add",
-                    "productId",
-                    "_S.product.id"
-                  ],
-                  [
-                    "remove",
-                    "product"
-                  ],
-                  [
-                    "if",
-                    [
-                      "is-not-null",
-                      "_S.price"
-                    ],
-                    [
-                      [
-                        "add",
-                        "unitPrice",
-                        "_S.price"
-                      ],
-                      [
-                        "remove",
-                        "price"
-                      ]
-                    ]
-                  ]
+                  "list",
+                  "product",
+                  "price"
                 ]
+              ],
+              [
+                "add",
+                "productId",
+                "_S.product.id"
+              ],
+              [
+                "add-if",
+                "unitPrice",
+                "_S.price"
               ]
             ],
             "rewrite_insert_payload": [
