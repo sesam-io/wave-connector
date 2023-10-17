@@ -77,7 +77,8 @@
                   "expenseAccount",
                   "incomeAccount",
                   "product",
-                  "currency"
+                  "currency",
+                  "items"
                 ]
               ],
               [
@@ -99,88 +100,64 @@
                 ]
               ],
               [
-                "if",
-                [
-                  "is-not-null",
-                  "_S.customer.id"
-                ],
-                [
-                  [
-                    "add",
-                    "customerId",
-                    "_S.customer.id"
-                  ]
-                ]
+                "add-if",
+                "customerId",
+                "_S.customer.id"
+              ],
+              [
+                "add-if",
+                "expenseAccountId",
+                "_S.expenseAccount.id"
+              ],
+              [
+                "add-if",
+                "incomeAccountId",
+                "_S.incomeAccount.id"
+              ],
+              [
+                "add-if",
+                "productId",
+                "_S.product.id"
+              ],
+              [
+                "add-if",
+                "currency",
+                "_S.currency.code"
               ],
               [
                 "if",
                 [
-                  "is-not-null",
-                  "_S.expenseAccount.id"
-                ],
-                [
+                  "is-not-empty",
                   [
-                    "add",
-                    "expenseAccountId",
-                    "_S.expenseAccount.id"
-                  ]
-                ]
-              ],
-              [
-                "if",
-                [
-                  "is-not-null",
-                  "_S.incomeAccount.id"
-                ],
-                [
-                  [
-                    "add",
-                    "incomeAccountId",
-                    "_S.incomeAccount.id"
-                  ]
-                ]
-              ],
-              [
-                "if",
-                [
-                  "is-not-null",
-                  "_S.product.id"
-                ],
-                [
-                  [
-                    "add",
-                    "productId",
-                    "_S.product.id"
-                  ]
-                ]
-              ],
-              [
-                "if",
-                [
-                  "is-not-null",
-                  "_S.currency.code"
-                ],
-                [
-                  [
-                    "add",
-                    "currency",
-                    "_S.currency.code"
-                  ]
-                ]
-              ],
-              [
-                "if",
-                [
-                  "is-not-null",
-                  "_S.items"
-                ],
-                [
-                  "add",
-                  "items",
-                  [
-                    "apply",
-                    "items",
+                    "filter",
+                    [
+                      "is-not-null",
+                      "_.product.id"
+                    ],
                     "_S.items"
+                  ]
+                ],
+                [
+                  "merge",
+                  [
+                    "dict",
+                    "items",
+                    [
+                      "map",
+                      [
+                        "apply",
+                        "items",
+                        "_."
+                      ],
+                      [
+                        "filter",
+                        [
+                          "is-not-null",
+                          "_.product.id"
+                        ],
+                        "_S.items"
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -188,7 +165,12 @@
             "items": [
               [
                 "copy",
-                "*"
+                "*",
+                [
+                  "list",
+                  "product",
+                  "price"
+                ]
               ],
               [
                 "add",
@@ -196,17 +178,9 @@
                 "_S.product.id"
               ],
               [
-                "remove",
-                "product"
-              ],
-              [
-                "add",
+                "add-if",
                 "unitPrice",
                 "_S.price"
-              ],
-              [
-                "remove",
-                "price"
               ]
             ],
             "rewrite_insert_payload": [
