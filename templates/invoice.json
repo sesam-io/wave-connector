@@ -125,6 +125,15 @@
                 "_S.currency.code"
               ],
               [
+                "add-if", 
+                "address",
+                [
+                  "apply", 
+                  "fix-address", 
+                  "_S.address"
+                ]
+              ],
+              [
                 "if",
                 [
                   "is-not-empty",
@@ -160,6 +169,18 @@
                     ]
                   ]
                 ]
+              ]
+            ],
+            "fix-address": [
+              [
+                "copy", 
+                "*", 
+                "country"
+              ],
+              [
+                "add-if", 
+                "countryCode", 
+                "_S.country.code"
               ]
             ],
             "items": [
