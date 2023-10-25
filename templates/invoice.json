@@ -181,6 +181,11 @@
                 "add-if", 
                 "countryCode", 
                 "_S.country.code"
+              ],
+              [
+                "add-if", 
+                "provinceCode", 
+                "_S.province.code"
               ]
             ],
             "items": [
