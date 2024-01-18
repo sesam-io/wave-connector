@@ -107,7 +107,7 @@
                   [
                     "add",
                     "businessId",
-                    "QnVzaW5lc3M6NjJlZGM5ZmYtOWFkYi00OTBhLWJiYmUtOTI4ZDJiYzhiZjAz"
+                    "{{@ account_id @}}"
                   ],
                   [
                     "remove",
