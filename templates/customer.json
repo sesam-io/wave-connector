@@ -1,7 +1,6 @@
 [
   {
     "_id": "{{@ system @}}-{{@ datatype @}}-collect",
-    "comment": "WARNING! This pipe is generated from the template of the 'invoice' datatype and changes will be silently ignored during collapse. For more information see the connectorpy README.",
     "exclude_completeness": [
       "{{@ system @}}-{{@ datatype @}}-share"
     ],
