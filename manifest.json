@@ -7,7 +7,7 @@
   "datatypes": {
     "account": {
       "label": "Account",
-      "template": "templates/invoice.json"
+      "template": "templates/customer.json"
     },
     "business": {
       "label": "Business",
@@ -23,7 +23,7 @@
     },
     "customer": {
       "label": "Customer",
-      "template": "templates/invoice.json"
+      "template": "templates/customer.json"
     },
     "invoice": {
       "label": "Invoice",
@@ -31,11 +31,11 @@
     },
     "product": {
       "label": "Product",
-      "template": "templates/invoice.json"
+      "template": "templates/customer.json"
     },
     "salestax": {
       "label": "SalesTax",
-      "template": "templates/invoice.json"
+      "template": "templates/customer.json"
     },
     "vendor": {
       "label": "Vendor",

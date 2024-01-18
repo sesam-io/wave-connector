@@ -56,7 +56,6 @@
     "transform": [
       {
         "properties": {
-          "client_side_patching": true,
           "operation_delete": "{{@ datatype @}}-delete",
           "operation_insert": "{{@ datatype @}}-insert",
           "operation_lookup": "{{@ datatype @}}-lookup",
@@ -68,33 +67,18 @@
             "build-payload": [
               [
                 "copy",
+                "*",
                 [
                   "list",
-                  "id",
-                  "customerId",
-                  "status",
-                  "title",
-                  "subhead",
-                  "{{@ datatype @}}Date",
-                  "exchangeRate",
-                  "dueDate",
-                  "memo",
-                  "footer",
-                  "disableAmexPayments",
-                  "disableCreditCardPayments",
-                  "disableBankPayments",
-                  "itemTitle",
-                  "unitTitle",
-                  "priceTitle",
-                  "hideName",
-                  "hideDescription",
-                  "hideUnit",
-                  "hidePrice",
-                  "hideAmount",
-                  "poNumber",
-                  "{{@ datatype @}}Number",
-                  "discounts",
-                  "requireTermsOfServiceAgreement"
+                  "_*",
+                  "$*",
+                  "sesam_*",
+                  "{{@ datatype @}}",
+                  "expenseAccount",
+                  "incomeAccount",
+                  "product",
+                  "currency",
+                  "items"
                 ]
               ],
               [
@@ -117,8 +101,8 @@
               ],
               [
                 "add-if",
-                "customerId",
-                "_S.customer.id"
+                "{{@ datatype @}}Id",
+                "_S.{{@ datatype @}}.id"
               ],
               [
                 "add-if",
@@ -207,10 +191,11 @@
             "items": [
               [
                 "copy",
+                "*",
                 [
                   "list",
-                  "description",
-                  "quantity"
+                  "product",
+                  "price"
                 ]
               ],
               [
@@ -222,27 +207,6 @@
                 "add-if",
                 "unitPrice",
                 "_S.price"
-              ],
-              [
-                "add-if",
-                "taxes",
-                [
-                  "apply",
-                  "items2",
-                  "_S.taxes"
-                ]
-              ]
-            ],
-            "items2": [
-              [
-                "add",
-                "amount",
-                "_S.amount.value"
-              ],
-              [
-                "add",
-                "salesTaxId",
-                "_S.salesTax.id"
               ]
             ],
             "rewrite_insert_payload": [
@@ -256,14 +220,14 @@
                 ]
               ]
             ],
-            "rewrite_update_payload_after_patch": [
+            "rewrite_update_payload": [
               [
                 "add",
                 "$payload",
                 [
                   "apply",
                   "build-payload",
-                  "_S._payload"
+                  "_S.$source"
                 ]
               ]
             ]
