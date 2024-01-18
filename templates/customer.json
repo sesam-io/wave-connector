@@ -175,7 +175,11 @@
               [
                 "copy",
                 "*",
-                "country"
+                [
+                  "list", 
+                  "country", 
+                  "province"
+                ]
               ],
               [
                 "add-if",
