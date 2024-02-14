@@ -1,29 +1,40 @@
-{
-  "_id": "{{@ system @}}-{{@ datatype @}}-collect",
-  "namespaced_identifiers": false,
-  "source": {
-    "operation": "{{@ datatype @}}-list",
-    "system": "{{@ system @}}",
-    "type": "rest"
+[
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-all",
+    "namespaced_identifiers": false,
+    "source": {
+      "operation": "{{@ datatype @}}-list",
+      "system": "{{@ system @}}",
+      "type": "rest"
+    },
+    "type": "pipe"
   },
-  "transform": {
-    "rules": {
-      "default": [
-        [
-          "merge",
-          "_S.node"
-        ],
-        [
-          "add",
-          "$last-modified",
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-collect",
+    "namespaced_identifiers": false,
+    "source": {
+      "dataset": "{{@ system @}}-{{@ datatype @}}-all",
+      "type": "dataset"
+    },
+    "transform": {
+      "rules": {
+        "default": [
           [
-            "datetime",
-            "_S.node.modifiedAt"
+            "merge",
+            "_S.node"
+          ],
+          [
+            "add",
+            "$last-modified",
+            [
+              "datetime",
+              "_S.node.modifiedAt"
+            ]
           ]
         ]
-      ]
+      },
+      "type": "dtl"
     },
-    "type": "dtl"
-  },
-  "type": "pipe"
-}
+    "type": "pipe"
+  }
+]
