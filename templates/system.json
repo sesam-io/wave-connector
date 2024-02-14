@@ -282,7 +282,7 @@
     "product-list": {
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "headers": {
-        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ [previous_request_headers['X-Sesam-Page']|int + 1, 2] | max }}{% else %}1{% endif %}"
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
