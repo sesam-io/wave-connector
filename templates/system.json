@@ -40,6 +40,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id accounts (page: $page, pageSize: $pageSize) { edges { node { id classicId name description displayId currency { code symbol name plural exponent } type { name normalBalanceType value } subtype { name value description } normalBalanceType sequence isArchived balance balanceInBusinessCurrency } } } } }",
         "variables": {
@@ -82,6 +83,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($page: Int!, $pageSize: Int!) { businesses(page: $page, pageSize: $pageSize) { pageInfo { currentPage totalPages totalCount } edges { node { id name isPersonal organizationalType type { name value } subtype { name value } currency { code } timezone address { addressLine1 addressLine2 city province { code name } country { code name currency { code symbol name plural exponent } nameWithArticle } postalCode } phone fax mobile tollFree website isClassicAccounting isArchived createdAt modifiedAt salesTaxes { edges { node { id } } } invoiceEstimateSettings { generalSettings { accentColor logoUrl } } } } } }",
         "variables": {
@@ -96,6 +98,7 @@
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "id_expression": "{{ code }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query {  countries {  code name nameWithArticle currency { code } provinces { code name } } }",
         "variables": {}
@@ -107,6 +110,7 @@
       "error_expression": "{{ body.errors | tojson if body is defined and body.errors is defined else '' }}",
       "id_expression": "{{ code }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query {  currencies {  code symbol name plural exponent } }",
         "variables": {}
@@ -146,6 +150,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) { business(id: $business_id) { id customers(page: $page, pageSize: $pageSize) { edges { node { id name business { id } firstName lastName email mobile phone fax tollFree website internalNotes displayId address { addressLine1 addressLine2 city province { code name } country { code } postalCode } currency { code } createdAt modifiedAt overdueAmount { raw value } outstandingAmount { raw value } shippingDetails { name address { addressLine1 addressLine2 city province {name code slug } country { code name currency { code symbol name plural exponent } nameWithArticle provinces { code name } } postalCode } phone instructions } } } } } }",
         "variables": {
@@ -213,6 +218,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id invoices(page: $page, pageSize: $pageSize) { edges { node {id  business {id} createdAt modifiedAt pdfUrl viewUrl status title subhead invoiceNumber invoiceDate poNumber customer{ id } currency{ code } dueDate amountDue{ value currency{ symbol } } amountPaid{ value currency{ symbol } } taxTotal{ value currency{ symbol } } total{ value currency{ symbol } } exchangeRate footer memo disableCreditCardPayments disableBankPayments itemTitle unitTitle priceTitle amountTitle hideName hideDescription hideUnit hidePrice hideAmount items{ product{ id } description quantity price subtotal{ value currency{ symbol } } total{ value currency{ symbol } } account{ id name subtype{ name value } } taxes{ amount{ value } salesTax{ id name } } } lastSentAt lastSentVia lastViewedAt } } } } }",
         "variables": {
@@ -280,6 +286,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) { business(id: $business_id) { id products(page: $page, pageSize: $pageSize) { edges { node { business {id} incomeAccount {id} expenseAccount {id} defaultSalesTaxes {id} id internalId name description unitPrice isSold isBought isArchived createdAt modifiedAt } } } } }",
         "variables": {
@@ -347,6 +354,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) { business(id: $business_id) { id salesTaxes(page: $page, pageSize: $pageSize) { edges { node { id name abbreviation description taxNumber showTaxNumberOnInvoices rate rates { effective rate } isCompound isRecoverable isArchived createdAt modifiedAt } } } } }",
         "variables": {
@@ -389,6 +397,7 @@
       },
       "id_expression": "{{ node.id }}",
       "method": "POST",
+      "next_page_link": "https://gql.waveapps.com/graphql/public?",
       "payload": {
         "query": "query($business_id: ID!, $page: Int!, $pageSize: Int!) {  business(id: $business_id) { id vendors(page: $page, pageSize: $pageSize) { edges { node {id name address { addressLine1 addressLine2 city province { code name } country { code  } postalCode } firstName lastName displayId email mobile phone fax tollFree website internalNotes currency { code } createdAt modifiedAt isArchived } } } } }",
         "variables": {
